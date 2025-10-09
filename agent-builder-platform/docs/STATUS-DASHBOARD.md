@@ -60,12 +60,7 @@
 
 ✅ Task 10: Strands Agent Builder Integration
    └─ Status: COMPLETE | Health: 100% | Tests: PASS
-
-✅ Task 10.1: Hybrid Vector Storage Architecture (Design)
-   └─ Status: COMPLETE | Health: 100% | Type: Documentation
-
-✅ Task 10.2: Expanded Knowledge Base (60+ use cases)
-   └─ Status: COMPLETE | Health: 100% | Tests: PASS
+   └─ Note: Knowledge sourced from 16 MCP ecosystem, not inline data
 
 ✅ Task 11: Backend API (COMPLETE - 11/11 sub-tasks)
    └─ Status: COMPLETE | Health: 100% | Tests: PASS
@@ -467,7 +462,7 @@
 
 ### Phase 1: Core Infrastructure (Tasks 1-6) ✅ COMPLETE (100%)
 - ✅ Task 1: AWS Infrastructure Foundation
-- ✅ Task 2: MCP Ecosystem with Vector Search (16 MCPs)
+- ✅ Task 2: MCP Ecosystem with Vector Search (16 MCPs - primary knowledge source)
 - ✅ Task 3: Manager Agent Orchestrator
 - ✅ Task 4: Orchestrator Syntax Fixes
 - ✅ Task 5: AWS Solutions Architect Agent

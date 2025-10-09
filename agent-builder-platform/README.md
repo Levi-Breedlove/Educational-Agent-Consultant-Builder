@@ -34,11 +34,11 @@
 
 **Backend: 100% Complete** | **Frontend: Not Started**
 
-See [STATUS-DASHBOARD.md](STATUS-DASHBOARD.md) for detailed progress.
+See [STATUS-DASHBOARD.md](docs/STATUS-DASHBOARD.md) for detailed progress.
 
 ## Documentation
 
-Complete documentation: [docs/COMPLETE-DOCUMENTATION.md](docs/COMPLETE-DOCUMENTATION.md)
+Complete documentation: [COMPLETE-DOCUMENTATION.md](docs/COMPLETE-DOCUMENTATION.md)
 
 ## Quick Start
 

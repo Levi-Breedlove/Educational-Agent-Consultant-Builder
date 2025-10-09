@@ -55,6 +55,7 @@ logs/
 
 # AWS
 .aws/
+aws/
 
 # Temporary files
 *.tmp

@@ -1,0 +1,20 @@
+# Core dependencies for Agent Builder Platform
+# Most functionality uses Python standard library (asyncio, dataclasses, enum, logging, json, typing)
+
+# FastAPI and web server
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.0.0
+
+# AWS SDK for DynamoDB, S3, and other AWS services
+boto3>=1.28.0
+botocore>=1.31.0
+
+# YAML parsing for configuration files
+pyyaml>=6.0
+
+# Optional: For architecture diagram generation
+# diagrams>=0.23.0
+
+# For any async HTTP requests (if needed)
+# aiohttp>=3.8.0

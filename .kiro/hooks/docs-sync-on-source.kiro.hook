@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Monitors all Python source files, YAML configurations, and shell scripts in the repository. When major changes are detected, triggers documentation updates in README.md in the /docs folder to keep documentation in sync with code changes and updates architecture diagram on project.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "**/*.py",
+      "**/*.yaml",
+      "**/*.yml",
+      "**/*.sh",
+      "**/*.ps1",
+      "requirements.txt",
+      "**/config.yaml",
+      "**/mcp-config.yaml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source code or configuration files have been modified. Please review the changes and update the relevant documentation:\n\n1. Analyze what changed in the modified files\n2. Determine which documentation needs updating:\n   - If it's a core feature change, update the main README.md or relevant files in /docs/\n   - If it's architecture changes, update docs/complete-architecture.md\n   - If it's MCP-related, update docs/mcp-integration-overview.md\n   - If it's testing changes, update docs/testing-guide.md\n   - If it's infrastructure changes, update relevant infrastructure docs\n3. Update the documentation to reflect the code changes, ensuring:\n   - Accuracy with the new implementation\n   - Consistency across all documentation\n   - Clear explanations for users\n   - Updated examples if applicable\n4. Keep the documentation professional and aligned with the existing style\n-update status dashboard\n\nFocus on keeping documentation synchronized with the actual implementation, delete redundant doc files that are out of alignment and keep updated docs."
+  }
+}

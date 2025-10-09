@@ -1,0 +1,445 @@
+// Add these services before the closing brace of awsServiceRegistry object:
+
+  // ADDITIONAL COMPUTE SERVICES
+  'outposts': {
+    id: 'outposts',
+    name: 'Outposts',
+    officialName: 'AWS Outposts',
+    icon: ArchitectureServiceAWSOutposts,
+    category: 'Compute',
+    description: 'Hybrid cloud infrastructure',
+    useCases: ['Hybrid cloud', 'On-premises AWS', 'Edge computing'],
+    tags: ['compute', 'hybrid', 'edge']
+  },
+  'wavelength': {
+    id: 'wavelength',
+    name: 'Wavelength',
+    officialName: 'AWS Wavelength',
+    icon: ArchitectureServiceAWSWavelength,
+    category: 'Compute',
+    description: '5G edge computing',
+    useCases: ['5G applications', 'Ultra-low latency', 'Edge computing'],
+    tags: ['compute', '5g', 'edge', 'mobile']
+  },
+  'local-zones': {
+    id: 'local-zones',
+    name: 'Local Zones',
+    officialName: 'AWS Local Zones',
+    icon: ArchitectureServiceAWSLocalZones,
+    category: 'Compute',
+    description: 'Ultra-low latency compute',
+    useCases: ['Low latency', 'Local compute', 'Edge applications'],
+    tags: ['compute', 'edge', 'latency']
+  },
+  'serverless-app-repo': {
+    id: 'serverless-app-repo',
+    name: 'Serverless Application Repository',
+    officialName: 'AWS Serverless Application Repository',
+    icon: ArchitectureServiceAWSServerlessApplicationRepository,
+    category: 'Compute',
+    description: 'Serverless application discovery',
+    useCases: ['Serverless apps', 'Application templates', 'Code sharing'],
+    tags: ['serverless', 'applications', 'templates']
+  },
+  'vmware-cloud': {
+    id: 'vmware-cloud',
+    name: 'VMware Cloud on AWS',
+    officialName: 'VMware Cloud on AWS',
+    icon: ArchitectureServiceVMwareCloudOnAWS,
+    category: 'Compute',
+    description: 'VMware workloads on AWS',
+    useCases: ['VMware migration', 'Hybrid cloud', 'vSphere workloads'],
+    tags: ['compute', 'vmware', 'hybrid', 'migration']
+  },
+
+  // ADDITIONAL STORAGE SERVICES
+  's3-glacier': {
+    id: 's3-glacier',
+    name: 'S3 Glacier',
+    officialName: 'Amazon S3 Glacier',
+    icon: ArchitectureServiceAmazonS3Glacier,
+    category: 'Storage',
+    description: 'Long-term archival storage',
+    useCases: ['Data archiving', 'Backup', 'Compliance'],
+    tags: ['storage', 'archival', 'backup']
+  },
+  'snowcone': {
+    id: 'snowcone',
+    name: 'Snowcone',
+    officialName: 'AWS Snowcone',
+    icon: ArchitectureServiceAWSSnowcone,
+    category: 'Storage',
+    description: 'Small edge computing device',
+    useCases: ['Edge computing', 'Data collection', 'Remote locations'],
+    tags: ['storage', 'edge', 'portable']
+  },
+  'snowmobile': {
+    id: 'snowmobile',
+    name: 'Snowmobile',
+    officialName: 'AWS Snowmobile',
+    icon: ArchitectureServiceAWSSnowmobile,
+    category: 'Storage',
+    description: 'Exabyte-scale data transfer',
+    useCases: ['Massive data migration', 'Data center migration'],
+    tags: ['storage', 'migration', 'exabyte']
+  },
+  'elastic-disaster-recovery': {
+    id: 'elastic-disaster-recovery',
+    name: 'Elastic Disaster Recovery',
+    officialName: 'AWS Elastic Disaster Recovery',
+    icon: ArchitectureServiceAWSElasticDisasterRecovery,
+    category: 'Storage',
+    description: 'Scalable disaster recovery',
+    useCases: ['Disaster recovery', 'Business continuity', 'Replication'],
+    tags: ['storage', 'disaster-recovery', 'backup']
+  },
+
+  // ADDITIONAL DATABASE SERVICES
+  'qldb': {
+    id: 'qldb',
+    name: 'QLDB',
+    officialName: 'Amazon QLDB',
+    icon: ArchitectureServiceAmazonQLDB,
+    category: 'Database',
+    description: 'Quantum Ledger Database',
+    useCases: ['Immutable ledger', 'Audit trails', 'Cryptographic verification'],
+    tags: ['database', 'ledger', 'immutable']
+  },
+  'dax': {
+    id: 'dax',
+    name: 'DynamoDB Accelerator',
+    officialName: 'Amazon DynamoDB Accelerator',
+    icon: ArchitectureServiceAmazonDynamoDBAccelerator,
+    category: 'Database',
+    description: 'DynamoDB caching service',
+    useCases: ['DynamoDB acceleration', 'Microsecond latency', 'Caching'],
+    tags: ['database', 'cache', 'dynamodb']
+  },
+  'rds-proxy': {
+    id: 'rds-proxy',
+    name: 'RDS Proxy',
+    officialName: 'Amazon RDS Proxy',
+    icon: ArchitectureServiceAmazonRDSProxy,
+    category: 'Database',
+    description: 'Database connection pooling',
+    useCases: ['Connection pooling', 'Database scaling', 'Serverless databases'],
+    tags: ['database', 'proxy', 'scaling']
+  },
+  'dms': {
+    id: 'dms',
+    name: 'Database Migration Service',
+    officialName: 'AWS Database Migration Service',
+    icon: ArchitectureServiceAWSDataMigrationService,
+    category: 'Database',
+    description: 'Database migration service',
+    useCases: ['Database migration', 'Replication', 'Data synchronization'],
+    tags: ['database', 'migration', 'replication']
+  },
+
+  // ADDITIONAL NETWORKING SERVICES
+  'privatelink': {
+    id: 'privatelink',
+    name: 'PrivateLink',
+    officialName: 'AWS PrivateLink',
+    icon: ArchitectureServiceAWSPrivateLink,
+    category: 'Networking',
+    description: 'Private connectivity to services',
+    useCases: ['Private endpoints', 'Service connectivity', 'Network isolation'],
+    tags: ['networking', 'private', 'endpoints']
+  },
+  'vpn': {
+    id: 'vpn',
+    name: 'VPN',
+    officialName: 'AWS VPN',
+    icon: ArchitectureServiceAWSVPN,
+    category: 'Networking',
+    description: 'Virtual private network',
+    useCases: ['Site-to-site VPN', 'Hybrid connectivity', 'Secure tunnels'],
+    tags: ['networking', 'vpn', 'security']
+  },
+  'client-vpn': {
+    id: 'client-vpn',
+    name: 'Client VPN',
+    officialName: 'AWS Client VPN',
+    icon: ArchitectureServiceAWSClientVPN,
+    category: 'Networking',
+    description: 'Managed client VPN service',
+    useCases: ['Remote access', 'Client VPN', 'Secure access'],
+    tags: ['networking', 'vpn', 'remote-access']
+  },
+  'network-firewall': {
+    id: 'network-firewall',
+    name: 'Network Firewall',
+    officialName: 'AWS Network Firewall',
+    icon: ArchitectureServiceAWSNetworkFirewall,
+    category: 'Networking',
+    description: 'Managed network firewall',
+    useCases: ['Network protection', 'Traffic filtering', 'Intrusion prevention'],
+    tags: ['networking', 'security', 'firewall']
+  },
+  'vpc-lattice': {
+    id: 'vpc-lattice',
+    name: 'VPC Lattice',
+    officialName: 'Amazon VPC Lattice',
+    icon: ArchitectureServiceAmazonVPCLattice,
+    category: 'Networking',
+    description: 'Application networking service',
+    useCases: ['Service-to-service communication', 'Application networking', 'Service mesh'],
+    tags: ['networking', 'service-mesh', 'applications']
+  },
+  'alb': {
+    id: 'alb',
+    name: 'Application Load Balancer',
+    officialName: 'Elastic Load Balancing Application Load Balancer',
+    icon: ArchitectureServiceElasticLoadBalancingApplicationLoadBalancer,
+    category: 'Networking',
+    description: 'Layer 7 load balancer',
+    useCases: ['HTTP/HTTPS load balancing', 'Content-based routing', 'Microservices'],
+    tags: ['networking', 'load-balancer', 'layer7']
+  },
+  'nlb': {
+    id: 'nlb',
+    name: 'Network Load Balancer',
+    officialName: 'Elastic Load Balancing Network Load Balancer',
+    icon: ArchitectureServiceElasticLoadBalancingNetworkLoadBalancer,
+    category: 'Networking',
+    description: 'Layer 4 load balancer',
+    useCases: ['TCP/UDP load balancing', 'Ultra-high performance', 'Static IP'],
+    tags: ['networking', 'load-balancer', 'layer4']
+  },
+  'glb': {
+    id: 'glb',
+    name: 'Gateway Load Balancer',
+    officialName: 'Elastic Load Balancing Gateway Load Balancer',
+    icon: ArchitectureServiceElasticLoadBalancingGatewayLoadBalancer,
+    category: 'Networking',
+    description: 'Layer 3 gateway load balancer',
+    useCases: ['Third-party appliances', 'Firewalls', 'Intrusion detection'],
+    tags: ['networking', 'load-balancer', 'gateway']
+  },
+  'route53-resolver': {
+    id: 'route53-resolver',
+    name: 'Route 53 Resolver',
+    officialName: 'Amazon Route 53 Resolver',
+    icon: ArchitectureServiceAmazonRoute53Resolver,
+    category: 'Networking',
+    description: 'DNS resolution service',
+    useCases: ['DNS resolution', 'Hybrid DNS', 'Domain forwarding'],
+    tags: ['networking', 'dns', 'resolution']
+  },
+  'cloud-wan': {
+    id: 'cloud-wan',
+    name: 'Cloud WAN',
+    officialName: 'AWS Cloud WAN',
+    icon: ArchitectureServiceAWSCloudWAN,
+    category: 'Networking',
+    description: 'Managed wide area network',
+    useCases: ['Global network', 'Branch connectivity', 'SD-WAN'],
+    tags: ['networking', 'wan', 'global']
+  },
+
+  // ADDITIONAL SECURITY SERVICES
+  'directory-service': {
+    id: 'directory-service',
+    name: 'Directory Service',
+    officialName: 'AWS Directory Service',
+    icon: ArchitectureServiceAWSDirectoryService,
+    category: 'Security',
+    description: 'Managed Microsoft Active Directory',
+    useCases: ['Active Directory', 'LDAP', 'User authentication'],
+    tags: ['security', 'directory', 'authentication']
+  },
+  'ram': {
+    id: 'ram',
+    name: 'Resource Access Manager',
+    officialName: 'AWS Resource Access Manager',
+    icon: ArchitectureServiceAWSResourceAccessManager,
+    category: 'Security',
+    description: 'Resource sharing across accounts',
+    useCases: ['Resource sharing', 'Cross-account access', 'Organization management'],
+    tags: ['security', 'sharing', 'cross-account']
+  },
+  'audit-manager': {
+    id: 'audit-manager',
+    name: 'Audit Manager',
+    officialName: 'AWS Audit Manager',
+    icon: ArchitectureServiceAWSAuditManager,
+    category: 'Security',
+    description: 'Audit preparation automation',
+    useCases: ['Compliance auditing', 'Evidence collection', 'Risk assessment'],
+    tags: ['security', 'compliance', 'auditing']
+  },
+  'detective': {
+    id: 'detective',
+    name: 'Detective',
+    officialName: 'Amazon Detective',
+    icon: ArchitectureServiceAmazonDetective,
+    category: 'Security',
+    description: 'Security investigation service',
+    useCases: ['Security investigation', 'Root cause analysis', 'Threat hunting'],
+    tags: ['security', 'investigation', 'threat-hunting']
+  },
+  'firewall-manager': {
+    id: 'firewall-manager',
+    name: 'Firewall Manager',
+    officialName: 'AWS Firewall Manager',
+    icon: ArchitectureServiceAWSFirewallManager,
+    category: 'Security',
+    description: 'Central firewall management',
+    useCases: ['Firewall management', 'Security policies', 'Compliance'],
+    tags: ['security', 'firewall', 'management']
+  },
+  'private-ca': {
+    id: 'private-ca',
+    name: 'Private Certificate Authority',
+    officialName: 'AWS Certificate Manager Private Certificate Authority',
+    icon: ArchitectureServiceAWSCertificateManagerPrivateCertificateAuthority,
+    category: 'Security',
+    description: 'Private certificate authority',
+    useCases: ['Private certificates', 'Internal PKI', 'Certificate management'],
+    tags: ['security', 'certificates', 'pki']
+  },
+  'signer': {
+    id: 'signer',
+    name: 'Signer',
+    officialName: 'AWS Signer',
+    icon: ArchitectureServiceAWSSigner,
+    category: 'Security',
+    description: 'Code signing service',
+    useCases: ['Code signing', 'Software integrity', 'Trust verification'],
+    tags: ['security', 'code-signing', 'integrity']
+  },
+  'iam-identity-center': {
+    id: 'iam-identity-center',
+    name: 'IAM Identity Center',
+    officialName: 'AWS IAM Identity Center',
+    icon: ArchitectureServiceAWSIAMIdentityCenter,
+    category: 'Security',
+    description: 'Workforce identity management',
+    useCases: ['SSO', 'Identity federation', 'Access management'],
+    tags: ['security', 'identity', 'sso']
+  },
+
+  // ADDITIONAL AI/ML SERVICES
+  'augmented-ai': {
+    id: 'augmented-ai',
+    name: 'Augmented AI',
+    officialName: 'Amazon Augmented AI',
+    icon: ArchitectureServiceAmazonAugmentedAI,
+    category: 'AI/ML',
+    description: 'Human review of ML predictions',
+    useCases: ['Human review', 'ML validation', 'Quality control'],
+    tags: ['ml', 'human-review', 'validation']
+  },
+  'codeguru': {
+    id: 'codeguru',
+    name: 'CodeGuru',
+    officialName: 'Amazon CodeGuru',
+    icon: ArchitectureServiceAmazonCodeGuru,
+    category: 'AI/ML',
+    description: 'ML-powered code reviews',
+    useCases: ['Code review', 'Performance optimization', 'Security scanning'],
+    tags: ['ml', 'code-review', 'performance']
+  },
+  'devops-guru': {
+    id: 'devops-guru',
+    name: 'DevOps Guru',
+    officialName: 'Amazon DevOps Guru',
+    icon: ArchitectureServiceAmazonDevOpsGuru,
+    category: 'AI/ML',
+    description: 'ML-powered operations',
+    useCases: ['Anomaly detection', 'Operational insights', 'Recommendations'],
+    tags: ['ml', 'devops', 'monitoring']
+  },
+  'fraud-detector': {
+    id: 'fraud-detector',
+    name: 'Fraud Detector',
+    officialName: 'Amazon Fraud Detector',
+    icon: ArchitectureServiceAmazonFraudDetector,
+    category: 'AI/ML',
+    description: 'Fraud detection service',
+    useCases: ['Fraud detection', 'Risk assessment', 'Account protection'],
+    tags: ['ml', 'fraud', 'security']
+  },
+  'healthlake': {
+    id: 'healthlake',
+    name: 'HealthLake',
+    officialName: 'Amazon HealthLake',
+    icon: ArchitectureServiceAmazonHealthLake,
+    category: 'AI/ML',
+    description: 'Healthcare data store',
+    useCases: ['Healthcare data', 'FHIR', 'Medical records'],
+    tags: ['ml', 'healthcare', 'data']
+  },
+  'lookout-equipment': {
+    id: 'lookout-equipment',
+    name: 'Lookout for Equipment',
+    officialName: 'Amazon Lookout for Equipment',
+    icon: ArchitectureServiceAmazonLookoutForEquipment,
+    category: 'AI/ML',
+    description: 'Equipment anomaly detection',
+    useCases: ['Predictive maintenance', 'Equipment monitoring', 'Industrial IoT'],
+    tags: ['ml', 'iot', 'maintenance']
+  },
+  'lookout-metrics': {
+    id: 'lookout-metrics',
+    name: 'Lookout for Metrics',
+    officialName: 'Amazon Lookout for Metrics',
+    icon: ArchitectureServiceAmazonLookoutForMetrics,
+    category: 'AI/ML',
+    description: 'Anomaly detection for metrics',
+    useCases: ['Metric anomalies', 'Business metrics', 'Root cause analysis'],
+    tags: ['ml', 'anomaly-detection', 'metrics']
+  },
+  'lookout-vision': {
+    id: 'lookout-vision',
+    name: 'Lookout for Vision',
+    officialName: 'Amazon Lookout for Vision',
+    icon: ArchitectureServiceAmazonLookoutForVision,
+    category: 'AI/ML',
+    description: 'Visual defect detection',
+    useCases: ['Quality inspection', 'Defect detection', 'Manufacturing'],
+    tags: ['ml', 'computer-vision', 'quality']
+  },
+  'monitron': {
+    id: 'monitron',
+    name: 'Monitron',
+    officialName: 'Amazon Monitron',
+    icon: ArchitectureServiceAmazonMonitron,
+    category: 'AI/ML',
+    description: 'Equipment monitoring system',
+    useCases: ['Condition monitoring', 'Predictive maintenance', 'Vibration analysis'],
+    tags: ['ml', 'iot', 'monitoring']
+  },
+  'panorama': {
+    id: 'panorama',
+    name: 'Panorama',
+    officialName: 'AWS Panorama',
+    icon: ArchitectureServiceAWSPanorama,
+    category: 'AI/ML',
+    description: 'Computer vision at the edge',
+    useCases: ['Edge vision', 'Video analytics', 'Industrial automation'],
+    tags: ['ml', 'computer-vision', 'edge']
+  },
+  'deepracer': {
+    id: 'deepracer',
+    name: 'DeepRacer',
+    officialName: 'AWS DeepRacer',
+    icon: ArchitectureServiceAWSDeepRacer,
+    category: 'AI/ML',
+    description: 'Reinforcement learning racing',
+    useCases: ['ML education', 'Reinforcement learning', 'Training'],
+    tags: ['ml', 'education', 'reinforcement-learning']
+  },
+  'sagemaker-ground-truth': {
+    id: 'sagemaker-ground-truth',
+    name: 'SageMaker Ground Truth',
+    officialName: 'Amazon SageMaker Ground Truth',
+    icon: ArchitectureServiceAmazonSageMakerGroundTruth,
+    category: 'AI/ML',
+    description: 'Data labeling service',
+    useCases: ['Data labeling', 'Training data', 'Human annotation'],
+    tags: ['ml', 'data-labeling', 'training']
+  },
+
+  // Continue with more services...

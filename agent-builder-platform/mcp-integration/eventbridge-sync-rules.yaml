@@ -1,0 +1,306 @@
+# EventBridge Rules for Automated MCP Knowledge Synchronization
+# Configures scheduled triggers for knowledge base updates
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'EventBridge rules for MCP knowledge synchronization'
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: 'agent-builder-platform'
+  Environment:
+    Type: String
+    Default: 'dev'
+  SyncLambdaArn:
+    Type: String
+    Description: 'ARN of the MCP sync Lambda function'
+
+Resources:
+  # AWS Documentation Sync Rule - Monday and Thursday at 2 AM UTC
+  AWSDocsSyncRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${ProjectName}-aws-docs-sync-${Environment}'
+      Description: 'Triggers AWS documentation synchronization twice weekly'
+      ScheduleExpression: 'cron(0 2 * * 1,4 *)'  # Monday and Thursday at 2 AM
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SyncLambdaArn
+          Id: 'AWSDocsSyncTarget'
+          Input: !Sub |
+            {
+              "sync_type": "aws",
+              "source": "eventbridge",
+              "schedule": "aws_docs_sync",
+              "environment": "${Environment}"
+            }
+
+  # Strands Knowledge Sync Rule - Tuesday and Friday at 3 AM UTC
+  StrandsKnowledgeSyncRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${ProjectName}-strands-sync-${Environment}'
+      Description: 'Triggers Strands knowledge synchronization twice weekly'
+      ScheduleExpression: 'cron(0 3 * * 2,5 *)'  # Tuesday and Friday at 3 AM
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SyncLambdaArn
+          Id: 'StrandsSyncTarget'
+          Input: !Sub |
+            {
+              "sync_type": "strands",
+              "source": "eventbridge",
+              "schedule": "strands_sync",
+              "environment": "${Environment}"
+            }
+
+  # MCP Repository Sync Rule - Wednesday and Saturday at 4 AM UTC
+  MCPRepositorySyncRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${ProjectName}-mcp-repos-sync-${Environment}'
+      Description: 'Triggers MCP repository synchronization twice weekly'
+      ScheduleExpression: 'cron(0 4 * * 3,6 *)'  # Wednesday and Saturday at 4 AM
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SyncLambdaArn
+          Id: 'MCPReposSyncTarget'
+          Input: !Sub |
+            {
+              "sync_type": "mcp_repos",
+              "source": "eventbridge",
+              "schedule": "mcp_repos_sync",
+              "environment": "${Environment}"
+            }
+
+  # Full Sync Rule - Sunday at 1 AM UTC (weekly full synchronization)
+  FullSyncRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${ProjectName}-full-sync-${Environment}'
+      Description: 'Triggers full knowledge base synchronization weekly'
+      ScheduleExpression: 'cron(0 1 * * 0 *)'  # Sunday at 1 AM
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SyncLambdaArn
+          Id: 'FullSyncTarget'
+          Input: !Sub |
+            {
+              "sync_type": "all",
+              "source": "eventbridge",
+              "schedule": "full_sync",
+              "environment": "${Environment}",
+              "force_refresh": true
+            }
+
+  # Health Check Rule - Every 5 minutes
+  HealthCheckRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${ProjectName}-health-check-${Environment}'
+      Description: 'Triggers MCP health checks every 5 minutes'
+      ScheduleExpression: 'rate(5 minutes)'
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SyncLambdaArn
+          Id: 'HealthCheckTarget'
+          Input: !Sub |
+            {
+              "sync_type": "health_check",
+              "source": "eventbridge",
+              "schedule": "health_monitoring",
+              "environment": "${Environment}"
+            }
+
+  # Emergency Sync Rule - Triggered manually or by alerts
+  EmergencySyncRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${ProjectName}-emergency-sync-${Environment}'
+      Description: 'Manual trigger for emergency knowledge synchronization'
+      EventPattern:
+        source:
+          - !Sub '${ProjectName}.mcp-sync'
+        detail-type:
+          - 'Emergency Sync Required'
+        detail:
+          environment:
+            - !Ref Environment
+      State: ENABLED
+      Targets:
+        - Arn: !Ref SyncLambdaArn
+          Id: 'EmergencySyncTarget'
+          Input: !Sub |
+            {
+              "sync_type": "all",
+              "source": "emergency",
+              "schedule": "emergency_sync",
+              "environment": "${Environment}",
+              "priority": "high",
+              "force_refresh": true
+            }
+
+  # Lambda Permissions for EventBridge
+  AWSDocsSyncPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SyncLambdaArn
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt AWSDocsSyncRule.Arn
+
+  StrandsSyncPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SyncLambdaArn
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt StrandsKnowledgeSyncRule.Arn
+
+  MCPReposSyncPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SyncLambdaArn
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt MCPRepositorySyncRule.Arn
+
+  FullSyncPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SyncLambdaArn
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt FullSyncRule.Arn
+
+  HealthCheckPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SyncLambdaArn
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt HealthCheckRule.Arn
+
+  EmergencySyncPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref SyncLambdaArn
+      Action: 'lambda:InvokeFunction'
+      Principal: 'events.amazonaws.com'
+      SourceArn: !GetAtt EmergencySyncRule.Arn
+
+  # CloudWatch Dashboard for Sync Monitoring
+  SyncMonitoringDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Sub '${ProjectName}-MCP-Sync-${Environment}'
+      DashboardBody: !Sub |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ProjectName}/MCP-Sync", "SyncedItems", "SyncType", "aws_documentation" ],
+                  [ ".", ".", ".", "strands_knowledge" ],
+                  [ ".", ".", ".", "mcp_repositories" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "title": "Knowledge Sync - Items Synced",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 12,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ProjectName}/MCP-Sync", "FailedItems", "SyncType", "aws_documentation" ],
+                  [ ".", ".", ".", "strands_knowledge" ],
+                  [ ".", ".", ".", "mcp_repositories" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "title": "Knowledge Sync - Failed Items",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 6,
+              "width": 24,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ProjectName}/MCP-Health", "ResponseTime", "MCPName", "AWS Documentation MCP" ],
+                  [ ".", ".", ".", "Strands Agent Resources MCP" ],
+                  [ ".", ".", ".", "GitHub Repository Analysis MCP" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "title": "MCP Health - Response Times",
+                "period": 300
+              }
+            },
+            {
+              "type": "log",
+              "x": 0,
+              "y": 12,
+              "width": 24,
+              "height": 6,
+              "properties": {
+                "query": "SOURCE '/aws/lambda/${ProjectName}-mcp-sync-${Environment}'\n| fields @timestamp, @message\n| filter @message like /ERROR/\n| sort @timestamp desc\n| limit 20",
+                "region": "us-east-1",
+                "title": "Recent Sync Errors",
+                "view": "table"
+              }
+            }
+          ]
+        }
+
+Outputs:
+  AWSDocsSyncRuleArn:
+    Description: 'ARN of the AWS docs sync rule'
+    Value: !GetAtt AWSDocsSyncRule.Arn
+    Export:
+      Name: !Sub '${ProjectName}-aws-docs-sync-rule-${Environment}'
+
+  StrandsSyncRuleArn:
+    Description: 'ARN of the Strands sync rule'
+    Value: !GetAtt StrandsKnowledgeSyncRule.Arn
+    Export:
+      Name: !Sub '${ProjectName}-strands-sync-rule-${Environment}'
+
+  MCPReposSyncRuleArn:
+    Description: 'ARN of the MCP repos sync rule'
+    Value: !GetAtt MCPRepositorySyncRule.Arn
+    Export:
+      Name: !Sub '${ProjectName}-mcp-repos-sync-rule-${Environment}'
+
+  FullSyncRuleArn:
+    Description: 'ARN of the full sync rule'
+    Value: !GetAtt FullSyncRule.Arn
+    Export:
+      Name: !Sub '${ProjectName}-full-sync-rule-${Environment}'
+
+  HealthCheckRuleArn:
+    Description: 'ARN of the health check rule'
+    Value: !GetAtt HealthCheckRule.Arn
+    Export:
+      Name: !Sub '${ProjectName}-health-check-rule-${Environment}'
+
+  DashboardURL:
+    Description: 'URL of the CloudWatch dashboard'
+    Value: !Sub 'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards:name=${ProjectName}-MCP-Sync-${Environment}'

@@ -1,0 +1,3663 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Agent Builder Platform API",
+    "description": "\n# Agent Builder Platform API\n\nExpert AI consultation system for building production-ready agents in 30-45 minutes.\n\n## Overview\n\nThe Agent Builder Platform provides a comprehensive API for creating custom AI agents through \nan expert-guided workflow. The platform leverages 16 specialized MCPs (Model Context Protocol tools), \nvector search with Amazon Bedrock Titan embeddings, and hierarchical multi-agent orchestration.\n\n## Key Features\n\n- **Expert AI Consultants**: AWS Solutions Architect, Senior Developer, DevOps Expert personas\n- **95%+ Confidence System**: Multi-factor confidence scoring across all recommendations\n- **Vector Search Intelligence**: Semantic understanding using 1536-dimension embeddings\n- **Production-Ready Output**: Complete agents with AWS backend, monitoring, and security\n- **Cost-Optimized**: Designed for hackathon budgets ($16-30 total)\n\n## Workflow Phases\n\n1. **Requirements** (8-12 min): Natural language use case description with AI-guided clarification\n2. **Architecture** (10-15 min): AI-generated architecture with cost and security analysis\n3. **Implementation** (10-15 min): Automated code generation with Strands builder integration\n4. **Testing** (5-8 min): Comprehensive validation with security and performance checks\n5. **Deployment** (3-5 min): Export and deployment with complete documentation\n\n## Authentication\n\nCurrently, the API uses session-based authentication. JWT token authentication is available \nfor production deployments.\n\n## Rate Limiting\n\n- Default: 100 requests per minute per session\n- Burst: 200 requests per minute\n- Contact support for higher limits\n\n## Performance Targets\n\n- Health check: < 100ms\n- Session operations: < 500ms\n- Agent creation: < 5 seconds\n- Complete workflow: 30-45 minutes\n\n## Support\n\n- Documentation: https://github.com/agent-builder-platform/docs\n- Issues: https://github.com/agent-builder-platform/issues\n- Email: support@agent-builder-platform.com\n    ",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Agent Builder Platform Team",
+      "email": "support@agent-builder-platform.com",
+      "url": "https://agent-builder-platform.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8000",
+        "description": "Local development server"
+      },
+      {
+        "url": "https://api.agent-builder-platform.com",
+        "description": "Production server"
+      },
+      {
+        "url": "https://staging-api.agent-builder-platform.com",
+        "description": "Staging server"
+      }
+    ]
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health Check",
+        "description": "Health check endpoint for monitoring",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/metrics": {
+      "get": {
+        "tags": [
+          "Performance"
+        ],
+        "summary": "Get Metrics",
+        "description": "Get performance metrics\n\nReturns cache statistics, response times, and request counts",
+        "operationId": "get_metrics_api_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cache/clear": {
+      "post": {
+        "tags": [
+          "Performance"
+        ],
+        "summary": "Clear Cache",
+        "description": "Clear all cache entries\n\nReturns confirmation of cache clear",
+        "operationId": "clear_cache_api_cache_clear_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/metrics/reset": {
+      "post": {
+        "tags": [
+          "Performance"
+        ],
+        "summary": "Reset Metrics",
+        "description": "Reset performance metrics\n\nReturns confirmation of metrics reset",
+        "operationId": "reset_metrics_api_metrics_reset_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Root"
+        ],
+        "summary": "Root",
+        "description": "Root endpoint with API information",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions": {
+      "post": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Create Session",
+        "description": "Create a new agent creation session\n\n- **user_id**: Optional user identifier (anonymous if not provided)\n- **experience_level**: User's experience level (beginner, intermediate, advanced, expert)\n\nReturns session details including session_id for subsequent API calls",
+        "operationId": "create_session_api_sessions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/{session_id}": {
+      "get": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Get Session",
+        "description": "Retrieve session details by session ID\n\n- **session_id**: Unique session identifier\n\nReturns complete session state including current phase and progress",
+        "operationId": "get_session_api_sessions__session_id__get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Delete Session",
+        "description": "Delete a session and cleanup associated data\n\n- **session_id**: Unique session identifier\n\nReturns confirmation of deletion",
+        "operationId": "delete_session_api_sessions__session_id__delete",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteSessionResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/create": {
+      "post": {
+        "tags": [
+          "Agent Workflow"
+        ],
+        "summary": "Create Agent",
+        "description": "Start agent creation workflow\n\n- **session_id**: Active session identifier\n- **use_case**: Use case name (e.g., \"customer_support_chatbot\")\n- **description**: Detailed description of what you want to build\n- **experience_level**: Your experience level (beginner, intermediate, advanced, expert)\n\nReturns agent_id for tracking the workflow",
+        "operationId": "create_agent_api_agents_create_post",
+        "parameters": [
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAgentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAgentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/requirements": {
+      "post": {
+        "tags": [
+          "Agent Workflow"
+        ],
+        "summary": "Submit Requirements",
+        "description": "Submit requirements for agent creation\n\n- **agent_id**: Agent identifier from create_agent\n- **user_input**: Your requirements and needs\n- **context**: Additional context (budget, timeline, etc.)\n\nReturns expert analysis with service recommendations and cost estimates",
+        "operationId": "submit_requirements_api_agents__agent_id__requirements_post",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequirementsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequirementsResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/feedback": {
+      "post": {
+        "tags": [
+          "Agent Workflow"
+        ],
+        "summary": "Process Feedback",
+        "description": "Provide feedback during agent creation workflow\n\n- **agent_id**: Agent identifier\n- **feedback_type**: Type of feedback (clarification, approval, modification)\n- **content**: Your feedback content\n- **rating**: Optional rating 1-5\n\nReturns feedback processing result and next actions",
+        "operationId": "process_feedback_api_agents__agent_id__feedback_post",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/status": {
+      "get": {
+        "tags": [
+          "Agent Workflow"
+        ],
+        "summary": "Get Agent Status",
+        "description": "Get current workflow status\n\n- **agent_id**: Agent identifier\n\nReturns current phase, progress, and activity status",
+        "operationId": "get_agent_status_api_agents__agent_id__status_get",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/recommendations": {
+      "get": {
+        "tags": [
+          "Agent Workflow"
+        ],
+        "summary": "Get Recommendations",
+        "description": "Get AI recommendations for current phase\n\n- **agent_id**: Agent identifier\n- **recommendation_type**: Optional type filter (services, architecture, implementation)\n\nReturns AI-generated recommendations with confidence scores",
+        "operationId": "get_recommendations_api_agents__agent_id__recommendations_get",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "recommendation_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Recommendation Type"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationsResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/test": {
+      "post": {
+        "tags": [
+          "Testing & Validation"
+        ],
+        "summary": "Execute Tests",
+        "description": "Execute tests for agent implementation\n\n- **agent_id**: Agent identifier\n- **session_id**: Session identifier\n- **test_types**: Optional list of specific test types (security, performance, cost, integration, load)\n\nReturns test execution results with production readiness score",
+        "operationId": "execute_tests_api_agents__agent_id__test_post",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestExecutionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestExecutionResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/validation": {
+      "get": {
+        "tags": [
+          "Testing & Validation"
+        ],
+        "summary": "Get Validation Report",
+        "description": "Get comprehensive validation report\n\n- **agent_id**: Agent identifier\n- **include_details**: Include detailed findings (default: true)\n\nReturns comprehensive validation report with security, performance, cost, and integration analysis",
+        "operationId": "get_validation_report_api_agents__agent_id__validation_get",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "include_details",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Include Details"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationReportResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/export": {
+      "get": {
+        "tags": [
+          "Export & Deployment"
+        ],
+        "summary": "Export Agent",
+        "description": "Export agent in specified format\n\n- **agent_id**: Agent identifier\n- **export_format**: Export format (code, iac, container, strands, complete)\n- **include_tests**: Include test files (default: true)\n\nReturns export package with all files and metadata",
+        "operationId": "export_agent_api_agents__agent_id__export_get",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "export_format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "complete",
+              "title": "Export Format"
+            }
+          },
+          {
+            "name": "include_tests",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Include Tests"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/export/download": {
+      "get": {
+        "tags": [
+          "Export & Deployment"
+        ],
+        "summary": "Download Agent Export",
+        "description": "Download agent export as ZIP file\n\n- **agent_id**: Agent identifier\n- **export_format**: Export format (code, iac, container, strands, complete)\n- **include_tests**: Include test files (default: true)\n\nReturns ZIP file download",
+        "operationId": "download_agent_export_api_agents__agent_id__export_download_get",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "export_format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "complete",
+              "title": "Export Format"
+            }
+          },
+          {
+            "name": "include_tests",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Include Tests"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agents/{agent_id}/deploy": {
+      "post": {
+        "tags": [
+          "Export & Deployment"
+        ],
+        "summary": "Generate Deployment Scripts",
+        "description": "Generate deployment scripts for specified target\n\n- **agent_id**: Agent identifier\n- **session_id**: Session identifier\n- **deployment_target**: Target platform (aws_lambda, aws_ecs, aws_fargate, docker, local)\n\nReturns deployment scripts and instructions",
+        "operationId": "generate_deployment_scripts_api_agents__agent_id__deploy_post",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Agent Id"
+            }
+          },
+          {
+            "name": "websocket_manager",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "title": "Websocket Manager"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeploymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeploymentResponse"
+                },
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/websocket/stats": {
+      "get": {
+        "tags": [
+          "WebSocket"
+        ],
+        "summary": "Get Websocket Stats",
+        "description": "Get WebSocket connection statistics\n\nReturns information about active WebSocket connections",
+        "operationId": "get_websocket_stats_api_websocket_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {},
+                "examples": {
+                  "session_created": {
+                    "summary": "Session created successfully",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "status": "active",
+                      "current_phase": "requirements",
+                      "created_at": "2025-10-06T10:00:00Z",
+                      "updated_at": "2025-10-06T10:00:00Z",
+                      "experience_level": "intermediate"
+                    }
+                  },
+                  "agent_created": {
+                    "summary": "Agent workflow created",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "session_id": "session-abc123def456",
+                      "status": "requirements",
+                      "progress_percentage": 0.0,
+                      "created_at": "2025-10-06T10:05:00Z",
+                      "use_case": "customer_support_chatbot",
+                      "description": "Build an AI-powered chatbot...",
+                      "experience_level": "intermediate",
+                      "vector_search_enabled": true
+                    }
+                  },
+                  "requirements_analysis": {
+                    "summary": "Requirements analysis complete",
+                    "value": {
+                      "session_id": "session-abc123def456",
+                      "use_case_analysis": {
+                        "primary_use_case": "chatbot",
+                        "complexity": "medium",
+                        "estimated_duration": "35_minutes"
+                      },
+                      "service_recommendations": [
+                        {
+                          "service_name": "AWS Lambda",
+                          "reasoning": "Serverless compute for chatbot logic with automatic scaling",
+                          "estimated_cost": "$5-10/month",
+                          "confidence": 0.97
+                        },
+                        {
+                          "service_name": "Amazon Lex",
+                          "reasoning": "Pre-built conversational AI with NLU capabilities",
+                          "estimated_cost": "$15-20/month",
+                          "confidence": 0.95
+                        }
+                      ],
+                      "cost_analysis": {
+                        "estimated_monthly_cost": "$25-35",
+                        "breakdown": {
+                          "compute": "$5-10",
+                          "ai_services": "$15-20",
+                          "storage": "$2-3",
+                          "data_transfer": "$3-5"
+                        },
+                        "optimization_opportunities": [
+                          "Use Lambda free tier (1M requests/month)",
+                          "Enable S3 Intelligent-Tiering for logs"
+                        ]
+                      },
+                      "security_analysis": {
+                        "recommendations": [
+                          "Enable encryption at rest for DynamoDB",
+                          "Use IAM roles instead of access keys",
+                          "Implement API Gateway throttling"
+                        ],
+                        "compliance_considerations": [
+                          "GDPR",
+                          "SOC2"
+                        ]
+                      },
+                      "clarifying_questions": [
+                        "What is the expected number of concurrent users?",
+                        "Do you need multi-language support?",
+                        "Should the chatbot integrate with existing systems?"
+                      ],
+                      "confidence_score": 0.97,
+                      "next_steps": [
+                        "Answer clarifying questions",
+                        "Review service recommendations",
+                        "Proceed to architecture design"
+                      ]
+                    }
+                  },
+                  "test_results": {
+                    "summary": "Test execution results",
+                    "value": {
+                      "agent_id": "agent-xyz789abc123",
+                      "test_execution_id": "test-exec-123456",
+                      "timestamp": "2025-10-06T10:30:00Z",
+                      "overall_status": "passed",
+                      "tests_executed": {
+                        "security": 8,
+                        "performance": 5,
+                        "cost": 3,
+                        "integration": 6,
+                        "load": 4
+                      },
+                      "summary": {
+                        "total_tests": 26,
+                        "passed": 24,
+                        "failed": 1,
+                        "warnings": 1
+                      },
+                      "production_readiness_score": 0.92,
+                      "confidence_score": 0.97,
+                      "recommendations": [
+                        "Enable CloudWatch alarms for Lambda errors",
+                        "Add DynamoDB auto-scaling policies",
+                        "Implement request validation middleware"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateAgentRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "Session identifier"
+          },
+          "use_case": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Use Case",
+            "description": "Use case name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 5000,
+            "minLength": 10,
+            "title": "Description",
+            "description": "Detailed description"
+          },
+          "experience_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experience Level",
+            "description": "User experience level",
+            "default": "beginner"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "use_case",
+          "description"
+        ],
+        "title": "CreateAgentRequest"
+      },
+      "CreateAgentResponse": {
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "title": "Agent Id"
+          },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "progress_percentage": {
+            "type": "number",
+            "title": "Progress Percentage"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "use_case": {
+            "type": "string",
+            "title": "Use Case"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "experience_level": {
+            "type": "string",
+            "title": "Experience Level"
+          },
+          "vector_search_enabled": {
+            "type": "boolean",
+            "title": "Vector Search Enabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "agent_id",
+          "session_id",
+          "status",
+          "progress_percentage",
+          "created_at",
+          "use_case",
+          "description",
+          "experience_level",
+          "vector_search_enabled"
+        ],
+        "title": "CreateAgentResponse"
+      },
+      "CreateSessionRequest": {
+        "properties": {
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id",
+            "description": "User identifier"
+          },
+          "experience_level": {
+            "$ref": "#/components/schemas/ExperienceLevel",
+            "description": "User experience level",
+            "default": "beginner"
+          }
+        },
+        "type": "object",
+        "title": "CreateSessionRequest"
+      },
+      "DeleteSessionResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "deleted_at": {
+            "type": "string",
+            "title": "Deleted At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "message",
+          "deleted_at"
+        ],
+        "title": "DeleteSessionResponse"
+      },
+      "DeploymentRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "Session identifier"
+          },
+          "deployment_target": {
+            "type": "string",
+            "title": "Deployment Target",
+            "description": "Deployment target platform"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "deployment_target"
+        ],
+        "title": "DeploymentRequest"
+      },
+      "DeploymentResponse": {
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "title": "Agent Id"
+          },
+          "deployment_target": {
+            "type": "string",
+            "title": "Deployment Target"
+          },
+          "scripts": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scripts"
+          },
+          "instructions": {
+            "type": "string",
+            "title": "Instructions"
+          },
+          "estimated_time": {
+            "type": "string",
+            "title": "Estimated Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "agent_id",
+          "deployment_target",
+          "scripts",
+          "instructions",
+          "estimated_time"
+        ],
+        "title": "DeploymentResponse"
+      },
+      "ExperienceLevel": {
+        "type": "string",
+        "enum": [
+          "beginner",
+          "intermediate",
+          "advanced",
+          "expert"
+        ],
+        "title": "ExperienceLevel"
+      },
+      "FeedbackRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "Session identifier"
+          },
+          "feedback_type": {
+            "type": "string",
+            "title": "Feedback Type",
+            "description": "Type of feedback"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "description": "Feedback content"
+          },
+          "rating": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rating",
+            "description": "Rating 1-5"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "feedback_type",
+          "content"
+        ],
+        "title": "FeedbackRequest"
+      },
+      "FeedbackResponse": {
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "title": "Agent Id"
+          },
+          "feedback_received": {
+            "type": "boolean",
+            "title": "Feedback Received"
+          },
+          "feedback_type": {
+            "type": "string",
+            "title": "Feedback Type"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "next_phase": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Phase"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "agent_id",
+          "feedback_received",
+          "feedback_type",
+          "action",
+          "message",
+          "timestamp"
+        ],
+        "title": "FeedbackResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "agents_available": {
+            "type": "integer",
+            "title": "Agents Available"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "timestamp",
+          "agents_available"
+        ],
+        "title": "HealthResponse"
+      },
+      "RecommendationsResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "recommendations": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "confidence_score": {
+            "type": "number",
+            "title": "Confidence Score"
+          },
+          "reasoning": {
+            "type": "string",
+            "title": "Reasoning"
+          },
+          "alternatives": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alternatives"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "recommendations",
+          "confidence_score",
+          "reasoning"
+        ],
+        "title": "RecommendationsResponse"
+      },
+      "RequirementsRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "Session identifier"
+          },
+          "user_input": {
+            "type": "string",
+            "maxLength": 5000,
+            "minLength": 10,
+            "title": "User Input",
+            "description": "User requirements description"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Additional context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "user_input"
+        ],
+        "title": "RequirementsRequest"
+      },
+      "RequirementsResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "use_case_analysis": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Use Case Analysis"
+          },
+          "service_recommendations": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Service Recommendations"
+          },
+          "cost_analysis": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Cost Analysis"
+          },
+          "security_analysis": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Security Analysis"
+          },
+          "clarifying_questions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Clarifying Questions"
+          },
+          "confidence_score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence Score"
+          },
+          "next_steps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Next Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "use_case_analysis",
+          "service_recommendations",
+          "cost_analysis",
+          "security_analysis",
+          "clarifying_questions",
+          "confidence_score",
+          "next_steps"
+        ],
+        "title": "RequirementsResponse"
+      },
+      "SessionResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SessionStatus"
+          },
+          "current_phase": {
+            "$ref": "#/components/schemas/WorkflowPhase"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At"
+          },
+          "experience_level": {
+            "$ref": "#/components/schemas/ExperienceLevel"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "status",
+          "current_phase",
+          "created_at",
+          "updated_at",
+          "experience_level"
+        ],
+        "title": "SessionResponse"
+      },
+      "SessionStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "completed",
+          "failed",
+          "cancelled"
+        ],
+        "title": "SessionStatus"
+      },
+      "StatusResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SessionStatus"
+          },
+          "current_phase": {
+            "$ref": "#/components/schemas/WorkflowPhase"
+          },
+          "progress_percentage": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Progress Percentage"
+          },
+          "estimated_time_remaining": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimated Time Remaining"
+          },
+          "last_activity": {
+            "type": "string",
+            "title": "Last Activity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "status",
+          "current_phase",
+          "progress_percentage",
+          "last_activity"
+        ],
+        "title": "StatusResponse"
+      },
+      "TestExecutionRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "Session identifier"
+          },
+          "test_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Test Types",
+            "description": "Specific test types to run"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id"
+        ],
+        "title": "TestExecutionRequest"
+      },
+      "TestExecutionResponse": {
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "title": "Agent Id"
+          },
+          "test_execution_id": {
+            "type": "string",
+            "title": "Test Execution Id"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "overall_status": {
+            "type": "string",
+            "title": "Overall Status"
+          },
+          "tests_executed": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Tests Executed"
+          },
+          "summary": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Summary"
+          },
+          "production_readiness_score": {
+            "type": "number",
+            "title": "Production Readiness Score"
+          },
+          "confidence_score": {
+            "type": "number",
+            "title": "Confidence Score"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "agent_id",
+          "test_execution_id",
+          "timestamp",
+          "overall_status",
+          "tests_executed",
+          "summary",
+          "production_readiness_score",
+          "confidence_score",
+          "recommendations"
+        ],
+        "title": "TestExecutionResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ValidationReportResponse": {
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "title": "Agent Id"
+          },
+          "report_id": {
+            "type": "string",
+            "title": "Report Id"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "overall_status": {
+            "type": "string",
+            "title": "Overall Status"
+          },
+          "production_readiness_score": {
+            "type": "number",
+            "title": "Production Readiness Score"
+          },
+          "confidence_score": {
+            "type": "number",
+            "title": "Confidence Score"
+          },
+          "multi_source_validation": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Multi Source Validation"
+          },
+          "summary": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Summary"
+          },
+          "assumptions_detected": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions Detected"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "monitoring": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Monitoring"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "agent_id",
+          "report_id",
+          "timestamp",
+          "overall_status",
+          "production_readiness_score",
+          "confidence_score",
+          "multi_source_validation",
+          "summary",
+          "assumptions_detected",
+          "recommendations",
+          "monitoring"
+        ],
+        "title": "ValidationReportResponse"
+      },
+      "WorkflowPhase": {
+        "type": "string",
+        "enum": [
+          "requirements",
+          "architecture",
+          "implementation",
+          "testing",
+          "deployment"
+        ],
+        "title": "WorkflowPhase"
+      }
+    }
+  }
+}

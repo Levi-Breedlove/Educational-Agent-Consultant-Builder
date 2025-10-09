@@ -1,0 +1,486 @@
+{
+  "info": {
+    "name": "Agent Builder Platform API",
+    "description": "\n# Agent Builder Platform API\n\nExpert AI consultation system for building production-ready agents in 30-45 minutes.\n\n## Overview\n\nThe Agent Builder Platform provides a comprehensive API for creating custom AI agents through \nan expert-guided workflow. The platform leverages 16 specialized MCPs (Model Context Protocol tools), \nvector search with Amazon Bedrock Titan embeddings, and hierarchical multi-agent orchestration.\n\n## Key Features\n\n- **Expert AI Consultants**: AWS Solutions Architect, Senior Developer, DevOps Expert personas\n- **95%+ Confidence System**: Multi-factor confidence scoring across all recommendations\n- **Vector Search Intelligence**: Semantic understanding using 1536-dimension embeddings\n- **Production-Ready Output**: Complete agents with AWS backend, monitoring, and security\n- **Cost-Optimized**: Designed for hackathon budgets ($16-30 total)\n\n## Workflow Phases\n\n1. **Requirements** (8-12 min): Natural language use case description with AI-guided clarification\n2. **Architecture** (10-15 min): AI-generated architecture with cost and security analysis\n3. **Implementation** (10-15 min): Automated code generation with Strands builder integration\n4. **Testing** (5-8 min): Comprehensive validation with security and performance checks\n5. **Deployment** (3-5 min): Export and deployment with complete documentation\n\n## Authentication\n\nCurrently, the API uses session-based authentication. JWT token authentication is available \nfor production deployments.\n\n## Rate Limiting\n\n- Default: 100 requests per minute per session\n- Burst: 200 requests per minute\n- Contact support for higher limits\n\n## Performance Targets\n\n- Health check: < 100ms\n- Session operations: < 500ms\n- Agent creation: < 5 seconds\n- Complete workflow: 30-45 minutes\n\n## Support\n\n- Documentation: https://github.com/agent-builder-platform/docs\n- Issues: https://github.com/agent-builder-platform/issues\n- Email: support@agent-builder-platform.com\n    ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Metrics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/metrics",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "metrics"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Clear Cache",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/cache/clear",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "cache",
+            "clear"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Metrics",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/metrics/reset",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "metrics",
+            "reset"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Root",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sessions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sessions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Session",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sessions/{session_id}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sessions",
+            "{session_id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Session",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sessions/{session_id}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sessions",
+            "{session_id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Agent",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/create",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Requirements",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/requirements",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "requirements"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Process Feedback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/feedback",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "feedback"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Agent Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Recommendations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/recommendations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "recommendations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Execute Tests",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/test",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "test"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Validation Report",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/validation",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "validation"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Export Agent",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/export",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "export"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Download Agent Export",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/export/download",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "export",
+            "download"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Generate Deployment Scripts",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/agents/{agent_id}/deploy",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "agents",
+            "{agent_id}",
+            "deploy"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Websocket Stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/websocket/stats",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "websocket",
+            "stats"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "session_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "agent_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

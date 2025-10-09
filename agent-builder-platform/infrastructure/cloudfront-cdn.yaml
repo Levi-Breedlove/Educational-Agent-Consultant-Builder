@@ -1,0 +1,283 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFront CDN for Agent Builder Platform Frontend'
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: agent-builder
+    Description: Project name for resource naming
+  
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment name
+  
+  FrontendBucketName:
+    Type: String
+    Description: S3 bucket name for frontend assets
+  
+  CertificateArn:
+    Type: String
+    Default: ''
+    Description: ACM certificate ARN for custom domain (optional)
+
+Conditions:
+  HasCustomDomain: !Not [!Equals [!Ref CertificateArn, '']]
+
+Resources:
+  # CloudFront Origin Access Identity
+  CloudFrontOAI:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub 'OAI for ${ProjectName}-${Environment} frontend'
+
+  # S3 Bucket Policy for CloudFront
+  FrontendBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FrontendBucketName
+      PolicyDocument:
+        Statement:
+          - Sid: AllowCloudFrontOAI
+            Effect: Allow
+            Principal:
+              CanonicalUser: !GetAtt CloudFrontOAI.S3CanonicalUserId
+            Action: 's3:GetObject'
+            Resource: !Sub 'arn:aws:s3:::${FrontendBucketName}/*'
+
+  # CloudFront Distribution
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: !Sub '${ProjectName}-${Environment} frontend CDN'
+        Enabled: true
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_100 # Use only North America and Europe
+        
+        # Origins
+        Origins:
+          - Id: S3Origin
+            DomainName: !Sub '${FrontendBucketName}.s3.${AWS::Region}.amazonaws.com'
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOAI}'
+        
+        # Default cache behavior
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          
+          # Cache policy
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
+          
+          # Response headers policy
+          ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+        
+        # Cache behaviors for specific paths
+        CacheBehaviors:
+          # Static assets (long cache)
+          - PathPattern: '/assets/*'
+            TargetOriginId: S3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+          
+          # Service worker (no cache)
+          - PathPattern: '/sw.js'
+            TargetOriginId: S3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingDisabled
+            ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
+        
+        # Custom error responses
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 300
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+            ErrorCachingMinTTL: 300
+        
+        # Default root object
+        DefaultRootObject: index.html
+        
+        # Viewer certificate
+        ViewerCertificate:
+          !If
+            - HasCustomDomain
+            - AcmCertificateArn: !Ref CertificateArn
+              SslSupportMethod: sni-only
+              MinimumProtocolVersion: TLSv1.2_2021
+            - CloudFrontDefaultCertificate: true
+        
+        # Logging
+        Logging:
+          Bucket: !Sub '${ProjectName}-${Environment}-logs.s3.amazonaws.com'
+          Prefix: cloudfront/
+          IncludeCookies: false
+
+  # Security Headers Policy
+  SecurityHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub '${ProjectName}-${Environment}-security-headers'
+        Comment: Security headers for Agent Builder Platform
+        
+        SecurityHeadersConfig:
+          # Strict Transport Security
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 31536000
+            IncludeSubdomains: true
+            Preload: true
+            Override: true
+          
+          # Content Type Options
+          ContentTypeOptions:
+            Override: true
+          
+          # Frame Options
+          FrameOptions:
+            FrameOption: DENY
+            Override: true
+          
+          # XSS Protection
+          XSSProtection:
+            ModeBlock: true
+            Protection: true
+            Override: true
+          
+          # Referrer Policy
+          ReferrerPolicy:
+            ReferrerPolicy: strict-origin-when-cross-origin
+            Override: true
+          
+          # Content Security Policy
+          ContentSecurityPolicy:
+            ContentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' wss: https:; frame-ancestors 'none';"
+            Override: true
+        
+        # Custom headers
+        CustomHeadersConfig:
+          Items:
+            - Header: X-Content-Type-Options
+              Value: nosniff
+              Override: true
+            - Header: Permissions-Policy
+              Value: "geolocation=(), microphone=(), camera=()"
+              Override: true
+
+  # Cache invalidation function (for CI/CD)
+  CacheInvalidationFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${ProjectName}-${Environment}-cache-invalidation'
+      Runtime: python3.11
+      Handler: index.handler
+      Role: !GetAtt CacheInvalidationRole.Arn
+      Timeout: 60
+      Environment:
+        Variables:
+          DISTRIBUTION_ID: !Ref CloudFrontDistribution
+      Code:
+        ZipFile: |
+          import boto3
+          import os
+          import time
+          
+          cloudfront = boto3.client('cloudfront')
+          
+          def handler(event, context):
+              distribution_id = os.environ['DISTRIBUTION_ID']
+              
+              # Create invalidation
+              response = cloudfront.create_invalidation(
+                  DistributionId=distribution_id,
+                  InvalidationBatch={
+                      'Paths': {
+                          'Quantity': 1,
+                          'Items': ['/*']
+                      },
+                      'CallerReference': str(time.time())
+                  }
+              )
+              
+              return {
+                  'statusCode': 200,
+                  'body': f"Invalidation created: {response['Invalidation']['Id']}"
+              }
+
+  # IAM Role for cache invalidation
+  CacheInvalidationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${ProjectName}-${Environment}-cache-invalidation-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: CloudFrontInvalidation
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'cloudfront:CreateInvalidation'
+                  - 'cloudfront:GetInvalidation'
+                Resource: !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}'
+
+Outputs:
+  DistributionId:
+    Description: CloudFront Distribution ID
+    Value: !Ref CloudFrontDistribution
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-distribution-id'
+  
+  DistributionDomainName:
+    Description: CloudFront Distribution Domain Name
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-distribution-domain'
+  
+  CacheInvalidationFunctionArn:
+    Description: Cache Invalidation Lambda Function ARN
+    Value: !GetAtt CacheInvalidationFunction.Arn
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-cache-invalidation-arn'

@@ -1,0 +1,460 @@
+name: agent-builder-platform
+version: 1.0.0
+description: Expert Consultation System for Agent Creation
+
+# Runtime configuration for AWS deployment
+runtime:
+  provider: aws
+  region: us-east-1
+  environment: development
+  
+# Storage configuration for expert system data
+storage:
+  type: dynamodb
+  region: us-east-1
+  tables:
+    projects: agent-builder-platform-projects-dev
+    configs: agent-builder-platform-configs-dev
+    aws_knowledge: agent-builder-platform-aws-knowledge-dev
+    strands_knowledge: agent-builder-platform-strands-knowledge-dev
+    mcp_repository: agent-builder-platform-mcp-repository-dev
+
+# S3 configuration for file storage
+s3:
+  region: us-east-1
+  buckets:
+    projects: agent-builder-platform-projects-dev-${AWS_ACCOUNT_ID}
+    agents: agent-builder-platform-agents-dev-${AWS_ACCOUNT_ID}
+    knowledge: agent-builder-platform-knowledge-dev-${AWS_ACCOUNT_ID}
+  validation:
+    required_env_vars: [AWS_ACCOUNT_ID, AWS_REGION]
+    bucket_naming_pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+    max_bucket_name_length: 63
+
+# MCP integrations for expert knowledge
+mcps:
+  aws-docs:
+    type: aws-documentation
+    config:
+      region: us-east-1
+      cache_ttl: 3600
+      fallback_enabled: true
+      knowledge_table: agent-builder-platform-aws-knowledge-dev
+  
+  strands:
+    type: strands
+    config:
+      base_url: https://api.strands.ai
+      cache_ttl: 1800
+      fallback_enabled: true
+      knowledge_table: agent-builder-platform-strands-knowledge-dev
+  
+  github:
+    type: github
+    config:
+      token: ${GITHUB_TOKEN}
+      cache_ttl: 7200
+      fallback_enabled: true
+      knowledge_table: agent-builder-platform-mcp-repository-dev
+
+# Expert AI Consultants Configuration
+agents:
+  # Main orchestrator for expert consultation workflow
+  orchestrator:
+    type: coordinator
+    model: bedrock:anthropic.claude-3-haiku-20240307-v1:0
+    persona: project_manager
+    description: "Coordinates expert consultation workflow and manages user interactions"
+    tools:
+      - mcp:aws-docs
+      - mcp:strands
+      - mcp:github
+      - knowledge-base
+      - strands-builder
+      - cost-calculator
+    config:
+      max_tokens: 4000
+      temperature: 0.3
+      system_prompt: |
+        You are an expert project manager coordinating a team of AI consultants to help users 
+        create production-ready agents. Your role is to:
+        1. Understand user requirements and guide them through the process
+        2. Coordinate with specialized consultants (AWS Architect, Developer, DevOps)
+        3. Ensure the process completes in 30-45 minutes
+        4. Maintain a professional but friendly consultation experience
+        5. Track progress and provide clear next steps
+    
+  # AWS Solutions Architect Consultant
+  requirements-analyst:
+    type: specialist
+    model: bedrock:anthropic.claude-3-haiku-20240307-v1:0
+    persona: aws_solutions_architect
+    description: "Experienced AWS Solutions Architect with 10+ years of expertise"
+    specialization: aws-requirements-analysis
+    tools:
+      - mcp:aws-docs
+      - knowledge-base
+      - cost-calculator
+      - security-analyzer
+    config:
+      max_tokens: 6000
+      temperature: 0.2
+      system_prompt: |
+        You are a senior AWS Solutions Architect with deep expertise in:
+        - AWS service selection and cost optimization
+        - Security best practices and compliance frameworks
+        - Scalability and performance planning
+        - Business impact analysis and ROI calculations
+        
+        Your communication style:
+        - Professional but approachable, like a senior consultant
+        - Explain "why" behind every recommendation
+        - Use business language while maintaining technical accuracy
+        - Ask intelligent, context-aware questions
+        - Adapt complexity based on user's AWS experience level
+        
+        Always consider: cost implications, security requirements, scalability needs, 
+        and business value when making recommendations.
+    
+  # Senior Developer Consultant  
+  architecture-advisor:
+    type: specialist
+    model: bedrock:anthropic.claude-3-haiku-20240307-v1:0
+    persona: aws_architect
+    description: "AWS Well-Architected Framework expert and senior architect"
+    specialization: aws-architecture-design
+    tools:
+      - mcp:aws-docs
+      - mcp:strands
+      - mcp:github
+      - knowledge-base
+      - well-architected-analyzer
+    config:
+      max_tokens: 6000
+      temperature: 0.2
+      system_prompt: |
+        You are a senior AWS architect specializing in the Well-Architected Framework.
+        Your expertise includes:
+        - All five pillars: Security, Reliability, Performance, Cost, Operational Excellence
+        - MCP integration patterns and best practices
+        - Multi-region and disaster recovery strategies
+        - Cost optimization and right-sizing recommendations
+        
+        Your approach:
+        - Design security-first architectures
+        - Provide detailed cost-benefit analysis
+        - Compare alternative approaches with pros/cons
+        - Use architectural diagrams when helpful
+        - Focus on long-term maintainability
+        
+        Always apply Well-Architected principles and explain architectural decisions 
+        with clear technical and business rationale.
+    
+  # Senior Developer Implementation Expert
+  implementation-guide:
+    type: specialist
+    model: bedrock:anthropic.claude-3-haiku-20240307-v1:0
+    persona: senior_developer
+    description: "Senior developer with expertise in agent development and AWS services"
+    specialization: agent-implementation
+    tools:
+      - mcp:strands
+      - mcp:github
+      - strands-builder
+      - knowledge-base
+      - code-generator
+    config:
+      max_tokens: 8000
+      temperature: 0.1
+      system_prompt: |
+        You are a senior developer with expertise in:
+        - Agent development using Strands Builder
+        - Production-ready code generation
+        - AWS service integration and SDK usage
+        - Security implementation and best practices
+        - Testing frameworks and quality assurance
+        
+        Your code quality standards:
+        - Comprehensive error handling and retry logic
+        - Proper logging and monitoring integration
+        - Security best practices (input validation, encryption)
+        - Performance optimization (connection pooling, caching)
+        - Complete documentation and usage examples
+        
+        Always generate enterprise-grade code that's ready for production deployment.
+        Explain code patterns and provide implementation alternatives when appropriate.
+
+  # DevOps/Security Expert
+  testing-validator:
+    type: specialist
+    model: bedrock:anthropic.claude-3-haiku-20240307-v1:0
+    persona: devops_expert
+    description: "DevOps engineer and security expert for validation and optimization"
+    specialization: aws-testing-validation
+    tools:
+      - security-scanner
+      - performance-tester
+      - cost-analyzer
+      - monitoring-setup
+    config:
+      max_tokens: 6000
+      temperature: 0.2
+      system_prompt: |
+        You are a senior DevOps engineer and security expert responsible for:
+        - Security vulnerability assessment and compliance checking
+        - Performance benchmarking and optimization
+        - Cost analysis and optimization recommendations
+        - Monitoring and alerting setup
+        - Production readiness validation
+        
+        Your validation approach:
+        - Thorough security assessments with specific recommendations
+        - Performance testing against AWS service limits
+        - Cost validation with optimization opportunities
+        - Comprehensive monitoring and observability setup
+        
+        Provide detailed test results with clear pass/fail criteria and specific 
+        optimization recommendations with expected benefits.
+
+# Custom tools for expert consultation system
+tools:
+  knowledge-base:
+    type: custom
+    handler: ./tools/knowledge-base.js
+    description: "Hybrid knowledge base with MCP fallback"
+    config:
+      primary_source: dynamodb
+      fallback_source: mcp
+      cache_ttl: 3600
+      
+  strands-builder:
+    type: custom
+    handler: ./tools/strands-builder.js
+    description: "Strands Agent Builder integration"
+    config:
+      builder_path: ./strands-agent-builder
+      output_path: ./generated-agents
+      
+  cost-calculator:
+    type: custom
+    handler: ./tools/cost-calculator.js
+    description: "AWS cost estimation and optimization"
+    config:
+      pricing_api_endpoint: https://pricing.us-east-1.amazonaws.com
+      free_tier_limits: ./config/aws-free-tier.json
+      
+  security-analyzer:
+    type: custom
+    handler: ./tools/security-analyzer.js
+    description: "AWS security best practices analyzer"
+    config:
+      compliance_frameworks: [aws-foundational, hipaa, sox, gdpr]
+      
+  well-architected-analyzer:
+    type: custom
+    handler: ./tools/well-architected.js
+    description: "AWS Well-Architected Framework analyzer"
+    config:
+      pillars: [security, reliability, performance, cost, operational_excellence]
+
+# Monitoring and observability
+monitoring:
+  cloudwatch:
+    enabled: true
+    log_group: /aws/agent-core/agent-builder-platform
+    metrics_namespace: ExpertConsultationSystem
+    retention_days: 7
+  
+  custom_metrics:
+    - name: consultation_duration
+      description: "Time taken for complete agent creation"
+      unit: seconds
+      target: 2700  # 45 minutes
+    
+    - name: user_satisfaction
+      description: "User satisfaction score"
+      unit: count
+      target: 4.5  # out of 5
+    
+    - name: agent_success_rate
+      description: "Percentage of successfully created agents"
+      unit: percent
+      target: 95
+
+# Notifications for expert system events
+notifications:
+  sns:
+    topic_arn: ${SNS_TOPIC_ARN}
+    events:
+      - consultation_started
+      - consultation_completed
+      - agent_created
+      - agent_failed
+      - knowledge_sync_complete
+      - cost_threshold_exceeded
+
+# Cost optimization settings
+cost_optimization:
+  budget_alerts:
+    - threshold: 15
+      notification: warning
+    - threshold: 20
+      notification: critical
+  
+  auto_scaling:
+    enabled: true
+    min_capacity: 0
+    max_capacity: 3
+    target_cpu: 70
+    
+  resource_cleanup:
+    enabled: true
+    retention_days: 7
+    cleanup_schedule: "0 2 * * *"
+
+# Security configuration
+security:
+  encryption:
+    at_rest: true
+    in_transit: true
+    kms_key_id: alias/agent-builder-platform
+  
+  access_control:
+    iam_roles: true
+    least_privilege: true
+    audit_logging: true
+  
+  compliance:
+    frameworks: [aws-foundational]
+    audit_enabled: true#
+ Environment Variable Validation
+environment:
+  required_variables:
+    - AWS_REGION
+    - AWS_ACCOUNT_ID
+    - GITHUB_TOKEN
+    - SNS_TOPIC_ARN
+  optional_variables:
+    - BEDROCK_MODEL_OVERRIDE
+    - DEBUG_MODE
+    - COST_THRESHOLD_WARNING
+    - COST_THRESHOLD_CRITICAL
+  validation:
+    aws_region_pattern: "^[a-z]{2}-[a-z]+-[0-9]$"
+    aws_account_id_pattern: "^[0-9]{12}$"
+    github_token_pattern: "^gh[ps]_[A-Za-z0-9_]{36,}$"
+
+# Tool Implementation Stubs (to be implemented in subsequent tasks)
+tool_implementations:
+  knowledge-base:
+    status: pending
+    implementation_task: "Task 2"
+    dependencies: [dynamodb, mcp_integrations]
+    config_validation:
+      required_tables: [aws_knowledge, strands_knowledge, mcp_repository]
+      
+  strands-builder:
+    status: pending
+    implementation_task: "Task 6"
+    dependencies: [github_mcp, strands_mcp]
+    config_validation:
+      required_paths: [builder_path, output_path]
+      
+  cost-calculator:
+    status: pending
+    implementation_task: "Task 17"
+    dependencies: [aws_pricing_api]
+    config_validation:
+      required_endpoints: [pricing_api_endpoint]
+      
+  security-analyzer:
+    status: pending
+    implementation_task: "Task 7"
+    dependencies: [aws_security_hub, compliance_frameworks]
+    config_validation:
+      supported_frameworks: [aws-foundational, hipaa, sox, gdpr]
+      
+  well-architected-analyzer:
+    status: pending
+    implementation_task: "Task 5"
+    dependencies: [aws_well_architected_api]
+    config_validation:
+      required_pillars: [security, reliability, performance, cost, operational_excellence]
+
+# Configuration Validation Rules
+validation:
+  startup_checks:
+    - validate_environment_variables
+    - validate_aws_connectivity
+    - validate_bedrock_access
+    - validate_dynamodb_tables
+    - validate_s3_buckets
+    - validate_mcp_connections
+  
+  runtime_checks:
+    - monitor_token_usage
+    - monitor_cost_thresholds
+    - validate_agent_responses
+    - check_knowledge_freshness
+  
+  error_handling:
+    max_retries: 3
+    retry_delay_seconds: 5
+    fallback_strategies:
+      mcp_failure: use_cached_knowledge
+      bedrock_failure: graceful_degradation
+      storage_failure: local_fallback
+
+# Performance Optimization
+performance:
+  caching:
+    bedrock_responses:
+      enabled: true
+      ttl_seconds: 3600
+      max_cache_size_mb: 100
+    
+    mcp_responses:
+      enabled: true
+      ttl_seconds: 1800
+      max_cache_size_mb: 50
+    
+    knowledge_base:
+      enabled: true
+      ttl_seconds: 7200
+      preload_common_queries: true
+  
+  connection_pooling:
+    dynamodb:
+      max_connections: 10
+      connection_timeout_seconds: 30
+    
+    s3:
+      max_connections: 5
+      connection_timeout_seconds: 60
+  
+  rate_limiting:
+    bedrock_requests_per_minute: 60
+    mcp_requests_per_minute: 120
+    user_requests_per_minute: 30
+
+# Monitoring Configuration Validation
+monitoring_validation:
+  required_metrics:
+    - consultation_duration
+    - user_satisfaction
+    - agent_success_rate
+    - cost_per_consultation
+    - knowledge_cache_hit_rate
+  
+  alert_thresholds:
+    consultation_duration_max: 2700  # 45 minutes
+    user_satisfaction_min: 4.0       # out of 5
+    agent_success_rate_min: 0.90     # 90%
+    cost_per_consultation_max: 2.0   # $2 per consultation
+    
+  dashboard_requirements:
+    - real_time_consultations
+    - cost_tracking
+    - performance_metrics
+    - error_rates
+    - knowledge_sync_status

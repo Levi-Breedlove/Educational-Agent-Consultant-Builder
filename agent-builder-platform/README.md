@@ -48,62 +48,52 @@ git clone https://github.com/Levi-Breedlove/Hackathon-Preview.git
 cd Hackathon-Preview/agent-builder-platform
 ```
 
-### 2. Run Setup Script
+### 2. Run Setup Script (One-Time Setup)
 
-**Windows (PowerShell):**
-```powershell
-.\setup.ps1
-```
-
-**Windows (CMD):**
 ```cmd
+cd agent-builder-platform
 setup.bat
 ```
 
-**Linux/Mac:**
-```bash
-chmod +x setup.sh
-./setup.sh
-```
+### 3. Start the Application
 
-### 3. Validate Setup (Optional)
-
-**Windows:**
-```powershell
-.\validate-infrastructure-safe.ps1
-```
-
-**Linux/Mac:**
-```bash
-./validate-infrastructure-safe.sh
-```
-
-See [VALIDATION-GUIDE.md](VALIDATION-GUIDE.md) for details.
-
-### 4. Start Backend
-
-Open CMD and run:
-
+**Option A: Automatic (Recommended)**
 ```cmd
-cd Hackathon-Preview
+cd agent-builder-platform
+start.bat
+```
+
+This will automatically open two windows:
+- Backend server (http://localhost:8000)
+- Frontend server (http://localhost:5173)
+
+**Option B: Manual**
+
+Terminal 1 - Backend:
+```cmd
 venv\Scripts\activate.bat
 cd agent-builder-platform
 uvicorn api.main:app --reload
 ```
 
-### 5. Start Frontend (New Terminal)
-
-Open a **new CMD window** and run:
-
+Terminal 2 - Frontend:
 ```cmd
-cd Hackathon-Preview
 cd agent-builder-platform\frontend
 npm run dev
 ```
 
-### 6. Access Application
+### 4. Access Application
 - **Frontend**: http://localhost:5173
 - **API Docs**: http://localhost:8000/api/docs
+
+### 5. Validate Setup (Optional)
+
+```cmd
+cd agent-builder-platform
+.\validate-infrastructure-safe.ps1
+```
+
+See [VALIDATION-GUIDE.md](VALIDATION-GUIDE.md) for details.
 
 ---
 

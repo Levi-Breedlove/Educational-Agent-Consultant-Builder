@@ -132,9 +132,14 @@ echo Step 3: Starting servers...
 echo ========================================
 echo.
 
+REM Get the absolute path to Hackathon-Preview directory
+cd ..
+set ROOT_DIR=%CD%
+cd agent-builder-platform
+
 REM Start backend in new window
 echo Starting backend server...
-start "Agent Builder - Backend" cmd /k "cd /d %~dp0.. && venv\Scripts\activate.bat && cd agent-builder-platform && uvicorn api.main:app --reload"
+start "Agent Builder - Backend" cmd /k "cd /d %ROOT_DIR% && venv\Scripts\activate.bat && cd agent-builder-platform && uvicorn api.main:app --reload"
 
 REM Wait for backend to initialize
 echo Waiting for backend to start...
@@ -142,7 +147,7 @@ timeout /t 5 /nobreak >nul
 
 REM Start frontend in new window
 echo Starting frontend server...
-start "Agent Builder - Frontend" cmd /k "cd /d %~dp0frontend && npm run dev"
+start "Agent Builder - Frontend" cmd /k "cd /d %ROOT_DIR%\agent-builder-platform\frontend && npm run dev"
 
 echo.
 echo ========================================

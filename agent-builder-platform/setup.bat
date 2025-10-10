@@ -46,16 +46,18 @@ if %SETUP_ERRORS% gtr 0 (
 echo.
 echo Setting up Python backend...
 
-REM Create virtual environment
+REM Create virtual environment at root level (Hackathon-Preview/venv)
+cd ..
 if exist venv (
     echo [WARNING] Virtual environment already exists. Skipping creation.
 ) else (
-    echo Creating Python virtual environment...
+    echo Creating Python virtual environment at root level...
     python -m venv venv
     if %errorlevel% equ 0 (
-        echo [OK] Virtual environment created
+        echo [OK] Virtual environment created at Hackathon-Preview\venv
     ) else (
         echo [ERROR] Failed to create virtual environment
+        cd agent-builder-platform
         exit /b 1
     )
 )
@@ -63,6 +65,9 @@ if exist venv (
 REM Activate virtual environment and install dependencies
 echo Installing Python dependencies...
 call venv\Scripts\activate.bat
+
+REM Go back to agent-builder-platform directory
+cd agent-builder-platform
 
 REM Check if requirements.txt exists
 if exist requirements.txt (
@@ -124,12 +129,15 @@ echo ===============
 echo.
 echo To start the application:
 echo.
-echo 1. Start the backend API:
+echo 1. Start the backend API (from Hackathon-Preview directory):
+echo    cd Hackathon-Preview
 echo    venv\Scripts\activate.bat
+echo    cd agent-builder-platform
 echo    uvicorn api.main:app --reload
 echo.
 echo 2. Start the frontend (in a new CMD window):
-echo    cd frontend
+echo    cd Hackathon-Preview
+echo    cd agent-builder-platform\frontend
 echo    npm run dev
 echo.
 echo 3. Open your browser:

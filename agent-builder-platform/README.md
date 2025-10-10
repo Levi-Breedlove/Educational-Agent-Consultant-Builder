@@ -42,62 +42,79 @@ Complete documentation: [COMPLETE-DOCUMENTATION.md](docs/COMPLETE-DOCUMENTATION.
 
 ## Quick Start
 
-### Option 1: Automated Setup (Recommended)
-
+### 1. Clone Repository
 ```bash
-# Windows PowerShell
+git clone https://github.com/Levi-Breedlove/Hackathon-Preview.git
+cd Hackathon-Preview/agent-builder-platform
+```
+
+### 2. Run Setup Script
+
+**Windows (PowerShell):**
+```powershell
 .\setup.ps1
+```
 
-# Windows Command Prompt (CMD)
+**Windows (CMD):**
+```cmd
 setup.bat
+```
 
-# Linux/Mac
+**Linux/Mac:**
+```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
-### Option 2: Manual Setup
+### 3. Validate Setup (Optional)
 
-See [SETUP.md](SETUP.md) for detailed instructions.
-
-### Validation (Optional)
-
-Validate your setup before running:
-
-```bash
-# Windows PowerShell
+**Windows:**
+```powershell
 .\validate-infrastructure-safe.ps1
+```
 
-# Linux/Mac
+**Linux/Mac:**
+```bash
 ./validate-infrastructure-safe.sh
 ```
 
 See [VALIDATION-GUIDE.md](VALIDATION-GUIDE.md) for details.
 
-### Running the Application
+### 4. Start Backend
 
-```bash
-# Activate virtual environment first
-# Windows PowerShell:
+Make sure you're in the `agent-builder-platform` directory, then:
+
+**Windows (PowerShell):**
+```powershell
 .\venv\Scripts\Activate.ps1
-
-# Windows CMD:
-venv\Scripts\activate.bat
-
-# Linux/Mac:
-source venv/bin/activate
-
-# Start backend API (from agent-builder-platform directory)
 uvicorn api.main:app --reload
+```
 
-# Start frontend (new terminal)
+**Windows (CMD):**
+```cmd
+venv\Scripts\activate.bat
+uvicorn api.main:app --reload
+```
+
+**Linux/Mac:**
+```bash
+source venv/bin/activate
+uvicorn api.main:app --reload
+```
+
+### 5. Start Frontend (New Terminal)
+```bash
 cd frontend
 npm run dev
-
-# Open browser
-# Frontend: http://localhost:5173
-# API Docs: http://localhost:8000/api/docs
 ```
+
+### 6. Access Application
+- **Frontend**: http://localhost:5173
+- **API Docs**: http://localhost:8000/api/docs
+
+---
+
+**For detailed setup instructions**, see [SETUP.md](SETUP.md)
 
 ## How It Works: Guided Learning Process
 

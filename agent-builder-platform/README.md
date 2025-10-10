@@ -82,29 +82,21 @@ See [VALIDATION-GUIDE.md](VALIDATION-GUIDE.md) for details.
 
 ### 4. Start Backend
 
-Make sure you're in the `agent-builder-platform` directory, then:
+Open CMD and run:
 
-**Windows (PowerShell):**
-```powershell
-.\venv\Scripts\Activate.ps1
-uvicorn api.main:app --reload
-```
-
-**Windows (CMD):**
 ```cmd
+cd Hackathon-Preview
 venv\Scripts\activate.bat
-uvicorn api.main:app --reload
-```
-
-**Linux/Mac:**
-```bash
-source venv/bin/activate
+cd agent-builder-platform
 uvicorn api.main:app --reload
 ```
 
 ### 5. Start Frontend (New Terminal)
-```bash
-cd frontend
+
+Open a **new CMD window** and run:
+
+```cmd
+cd Hackathon-Preview\agent-builder-platform\frontend
 npm run dev
 ```
 

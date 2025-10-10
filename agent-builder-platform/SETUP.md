@@ -49,27 +49,23 @@ chmod +x setup.sh
 
 ### 4. Start Backend
 
-**Windows (PowerShell):**
-```powershell
-.\venv\Scripts\Activate.ps1
-uvicorn api.main:app --reload
-```
+Open CMD and run:
 
-**Windows (CMD):**
 ```cmd
+cd Hackathon-Preview
 venv\Scripts\activate.bat
+cd agent-builder-platform
 uvicorn api.main:app --reload
 ```
 
-**Linux/Mac:**
-```bash
-source venv/bin/activate
-uvicorn api.main:app --reload
-```
+**Note**: The virtual environment is at the root level (`Hackathon-Preview/venv`), so activate it from there first.
 
 ### 5. Start Frontend (New Terminal)
-```bash
-cd frontend
+
+Open a **new CMD window** and run:
+
+```cmd
+cd Hackathon-Preview\agent-builder-platform\frontend
 npm run dev
 ```
 

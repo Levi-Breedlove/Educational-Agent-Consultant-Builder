@@ -755,16 +755,6 @@ agent-builder-platform/
 └── setup.ps1 / setup.bat / setup.sh # Setup scripts
 ```
 
-**Note**: Virtual environments (`venv/`, `node_modules/`), build artifacts (`__pycache__/`, `dist/`), and IDE settings (`.vscode/`) are excluded from this structure. See `.gitignore` for the complete exclusion list.
-│   ├── deploy-infrastructure.sh
-│   ├── deploy-mcp-integration.sh
-│   └── test-aws-connectivity.sh
-│
-├── README.md                   # This file
-└── STATUS-DASHBOARD.md         # Progress tracking
-```
-
-
 
 ---
 

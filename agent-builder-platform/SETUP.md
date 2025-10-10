@@ -33,8 +33,8 @@ See [VALIDATION-GUIDE.md](VALIDATION-GUIDE.md) for details.
 
 #### Step 1: Clone Repository (if from GitHub)
 ```bash
-git clone <your-repo-url>
-cd agent-builder-platform
+git clone https://github.com/Levi-Breedlove/Hackathon-Preview.git
+cd Hackathon-Preview/agent-builder-platform
 ```
 
 #### Step 2: Run Setup Script
@@ -109,8 +109,8 @@ chmod +x setup.sh
 
 #### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
-cd agent-builder-platform
+git clone https://github.com/Levi-Breedlove/Hackathon-Preview.git
+cd Hackathon-Preview/agent-builder-platform
 ```
 
 #### 2. Backend Setup
@@ -324,10 +324,9 @@ setup.bat
 
 ## Production Deployment
 
-For production deployment, see:
-- [Deployment Guide](docs/guides/deployment-guide.md)
-- [AWS Infrastructure Setup](infrastructure/README.md)
-- [Security Configuration](docs/security-compliance.md)
+For production deployment information, see:
+- [Complete Documentation](docs/COMPLETE-DOCUMENTATION.md) - Full system architecture and deployment details
+- [Status Dashboard](docs/STATUS-DASHBOARD.md) - Current implementation status
 
 ## Support
 

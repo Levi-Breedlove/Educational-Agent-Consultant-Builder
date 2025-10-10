@@ -42,10 +42,17 @@ Complete documentation: [COMPLETE-DOCUMENTATION.md](docs/COMPLETE-DOCUMENTATION.
 
 ## Quick Start
 
+### Prerequisites
+
+Install these first:
+- **Python 3.9+** - [Download](https://www.python.org/downloads/)
+- **Node.js 18+** - [Download](https://nodejs.org/)
+- **Git** - [Download](https://git-scm.com/)
+
 ### 1. Clone Repository
 ```bash
 git clone https://github.com/Levi-Breedlove/Hackathon-Preview.git
-cd Hackathon-Preview/agent-builder-platform
+cd Hackathon-Preview
 ```
 
 ### 2. Run Setup Script (One-Time Setup)

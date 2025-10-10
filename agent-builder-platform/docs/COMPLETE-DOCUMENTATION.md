@@ -658,27 +658,35 @@ See [STATUS-DASHBOARD.md](STATUS-DASHBOARD.md) for detailed progress tracking.
 ```
 agent-builder-platform/
 ├── agent-core/                 # Orchestration layer
-│   ├── orchestrator.py         # Base orchestrator (500+ lines)
+│   ├── orchestrator.py         # Main orchestrator (500+ lines)
 │   ├── confidence_orchestrator_wrapper.py  # Confidence wrapper (373 lines)
-│   └── agent_core_app.py       # Application entry point
+│   ├── orchestrator_clean.py   # Clean version
+│   ├── agent_core_app.py       # Application entry point
+│   └── test-orchestrator-integration.py
 │
-├── agents/                     # Specialist AI agents
+├── agents/                     # Specialist AI agents (8 files)
 │   ├── aws_solutions_architect.py      # 840 lines, 97% confidence
 │   ├── architecture_advisor.py         # 1290 lines, 95% confidence
 │   ├── implementation_guide.py         # 2299 lines, 92% confidence
 │   ├── testing_validator.py            # 1598 lines, 89% confidence
-│   └── strands_builder_integration.py  # 1242 lines, 88% confidence
+│   ├── strands_builder_integration.py  # 1242 lines, 88% confidence
+│   ├── advanced_reasoning.py           # Advanced reasoning
+│   ├── ultra_advanced_reasoning.py     # Ultra advanced reasoning
+│   └── production_readiness_test.py    # Production tests
 │
-├── api/                        # FastAPI backend (10,000+ lines)
+├── api/                        # FastAPI backend (11 endpoints, 40+ files)
 │   ├── main.py                 # API application
 │   ├── auth.py                 # JWT authentication (332 lines)
 │   ├── session_service.py      # DynamoDB sessions (350+ lines)
-│   ├── workflow_service.py     # Workflow endpoints
+│   ├── workflow_service.py     # Workflow management
 │   ├── testing_service.py      # Testing endpoints
 │   ├── export_service.py       # Export in 5 formats (1,886 lines)
 │   ├── websocket_service.py    # Real-time updates (391 lines)
 │   ├── performance_service.py  # Caching & optimization (700+ lines)
-│   └── rate_limiter.py         # Rate limiting
+│   ├── rate_limiter.py         # Rate limiting
+│   ├── models.py               # Data models
+│   ├── config.py               # Configuration
+│   └── [test files]            # Comprehensive test suite
 │
 ├── confidence_consultation/    # Confidence system (1,873 lines)
 │   ├── confidence_scoring.py           # Multi-factor scoring (14KB)
@@ -689,6 +697,18 @@ agent-builder-platform/
 │   ├── progressive_disclosure.py       # Experience adaptation (8KB)
 │   └── confidence_monitor.py           # Real-time monitoring (12KB)
 │
+├── frontend/                   # React + TypeScript UI
+│   ├── src/
+│   │   ├── api/                # API client
+│   │   ├── components/         # React components
+│   │   ├── pages/              # Page components
+│   │   ├── store/              # Redux state management
+│   │   ├── theme/              # Material-UI theme
+│   │   └── App.tsx             # Main application
+│   ├── public/                 # Static assets
+│   ├── package.json            # Dependencies
+│   └── vite.config.ts          # Vite configuration
+│
 ├── prompt_engineering/         # Prompt system (2,500+ lines)
 │   ├── prompt_engine.py        # Core engine (500+ lines)
 │   ├── prompt_templates.py     # Structured templates (374 lines)
@@ -696,21 +716,46 @@ agent-builder-platform/
 │   ├── output_validation.py    # 50+ security checks (400+ lines)
 │   ├── semantic_reasoning.py   # Intent understanding (350+ lines)
 │   ├── orchestrator_prompts.py # Orchestrator prompts (524 lines)
-│   └── agent_role_prompts.py   # Agent role prompts (400+ lines)
+│   ├── agent_role_prompts.py   # Agent role prompts (400+ lines)
+│   └── ethical_safety_framework.py # Safety framework
 │
-├── mcp-integration/            # MCP ecosystem (1,091 lines)
-│   ├── mcp_ecosystem.py        # 16 MCP integration
+├── mcp-integration/            # MCP ecosystem (16 MCPs)
+│   ├── mcp_ecosystem.py        # Main MCP integration
+│   ├── mcp_ecosystem_windows.py # Windows-specific version
 │   ├── enhanced_knowledge_service.py   # Knowledge service (1,091 lines)
 │   ├── vector_search_system.py         # Bedrock Titan vector search
 │   ├── mcp_health_monitor.py           # Health monitoring
-│   └── mcp-config.yaml                 # MCP configuration
+│   ├── hybrid_vector_storage.py        # Hybrid storage
+│   ├── agent-core-mcp-wrapper.py       # Agent Core wrapper
+│   ├── knowledge-access-service.py     # Knowledge access
+│   ├── mcp-config.yaml                 # MCP configuration
+│   └── eventbridge-sync-rules.yaml     # Sync rules
 │
 ├── infrastructure/             # CloudFormation templates
 │   ├── main-stack.yaml         # Core infrastructure
 │   ├── ecs-fargate-config.yaml # ECS deployment
-│   └── storage-config.yaml     # DynamoDB + S3
+│   ├── storage-config.yaml     # DynamoDB + S3
+│   └── cloudfront-cdn.yaml     # CDN configuration
+│
+├── docs/                       # Documentation
+│   ├── guides/                 # User guides
+│   ├── COMPLETE-DOCUMENTATION.md # Full technical docs
+│   └── STATUS-DASHBOARD.md     # Current progress
 │
 ├── scripts/                    # Deployment automation
+│   ├── deploy-infrastructure.sh # Deploy AWS infrastructure
+│   ├── deploy-mcp-integration.sh # Deploy MCP integration
+│   ├── test-aws-connectivity.sh # Test AWS connectivity
+│   └── validate-config.sh      # Configuration validation
+│
+├── .env.example                # Environment template
+├── README.md                   # Project README
+├── SETUP.md                    # Setup guide
+├── requirements.txt            # Python dependencies
+└── setup.ps1 / setup.bat / setup.sh # Setup scripts
+```
+
+**Note**: Virtual environments (`venv/`, `node_modules/`), build artifacts (`__pycache__/`, `dist/`), and IDE settings (`.vscode/`) are excluded from this structure. See `.gitignore` for the complete exclusion list.
 │   ├── deploy-infrastructure.sh
 │   ├── deploy-mcp-integration.sh
 │   └── test-aws-connectivity.sh

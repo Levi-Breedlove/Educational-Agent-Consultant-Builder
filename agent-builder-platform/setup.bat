@@ -10,12 +10,19 @@ set SETUP_ERRORS=0
 
 REM Check Python installation
 echo Checking prerequisites...
-python --version >nul 2>&1
+py --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] Python not found. Please install Python 3.9+ from https://www.python.org/
-    set /a SETUP_ERRORS+=1
+    python --version >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo [ERROR] Python not found. Please install Python 3.9+ from https://www.python.org/
+        set /a SETUP_ERRORS+=1
+    ) else (
+        for /f "tokens=*" %%i in ('python --version') do echo [OK] Python found: %%i
+        set PYTHON_CMD=python
+    )
 ) else (
-    for /f "tokens=*" %%i in ('python --version') do echo [OK] Python found: %%i
+    for /f "tokens=*" %%i in ('py --version') do echo [OK] Python found: %%i
+    set PYTHON_CMD=py
 )
 
 REM Check Node.js installation
@@ -52,7 +59,7 @@ if exist venv (
     echo [WARNING] Virtual environment already exists. Skipping creation.
 ) else (
     echo Creating Python virtual environment at root level...
-    python -m venv venv
+    %PYTHON_CMD% -m venv venv
     if %errorlevel% equ 0 (
         echo [OK] Virtual environment created at Hackathon-Preview\venv
     ) else (

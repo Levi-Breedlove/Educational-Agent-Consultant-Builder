@@ -65,7 +65,8 @@ uvicorn api.main:app --reload
 Open a **new CMD window** and run:
 
 ```cmd
-cd Hackathon-Preview\agent-builder-platform\frontend
+cd Hackathon-Preview
+cd agent-builder-platform\frontend
 npm run dev
 ```
 

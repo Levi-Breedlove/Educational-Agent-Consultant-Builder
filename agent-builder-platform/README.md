@@ -77,9 +77,18 @@ See [VALIDATION-GUIDE.md](VALIDATION-GUIDE.md) for details.
 ### Running the Application
 
 ```bash
-# Start backend API
-cd api
-uvicorn main:app --reload
+# Activate virtual environment first
+# Windows PowerShell:
+.\venv\Scripts\Activate.ps1
+
+# Windows CMD:
+venv\Scripts\activate.bat
+
+# Linux/Mac:
+source venv/bin/activate
+
+# Start backend API (from agent-builder-platform directory)
+uvicorn api.main:app --reload
 
 # Start frontend (new terminal)
 cd frontend

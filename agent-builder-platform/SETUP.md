@@ -21,7 +21,7 @@ cd Hackathon-Preview/agent-builder-platform
 
 ```cmd
 cd agent-builder-platform
-setup.bat
+.\setup.bat
 ```
 
 This will:
@@ -36,7 +36,7 @@ This will:
 
 ```cmd
 cd agent-builder-platform
-start.bat
+.\start.bat
 ```
 
 This automatically opens two windows:

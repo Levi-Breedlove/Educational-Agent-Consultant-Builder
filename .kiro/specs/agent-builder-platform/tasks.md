@@ -8,7 +8,7 @@ This implementation plan tracks the development of the Agent Builder Platform - 
 
 **Last Updated**: October 9, 2025
 
-**Overall Progress**: 14/27 core tasks complete (52%) | 0 tasks in progress | 13 tasks remaining
+**Overall Progress**: 14/28 core tasks complete (50%) | 0 tasks in progress | 14 tasks remaining
 
 **Status by Phase**:
 - ✅ Phase 1: Core Infrastructure (6/6 tasks, 100%)
@@ -28,7 +28,7 @@ This implementation plan tracks the development of the Agent Builder Platform - 
 1. **Phase 5 - UX Enhancement** (Task 15): Welcome screens, onboarding flow, smart defaults, error recovery - NOT STARTED
 2. **Phase 6 - Advanced Features** (Tasks 16-18): 
    - Memory systems (short-term, long-term, episodic) - NOT STARTED
-   - RAG with Bedrock Knowledge Bases - NOT STARTED  
+   - Enhanced citation tracking & knowledge versioning - NOT STARTED (enhances existing DynamoDB + Titan system)
    - Project persistence & version control - NOT STARTED (export service exists but not integrated into workflow)
 3. **Phase 7 - Production Readiness** (Tasks 19-20): 
    - Comprehensive testing framework - NOT STARTED (unit tests exist, need integration/E2E/CI-CD)
@@ -37,34 +37,36 @@ This implementation plan tracks the development of the Agent Builder Platform - 
    - Documentation - NOT STARTED (technical docs exist, need user-facing content)
    - UAT, launch prep, marketing, post-launch monitoring - NOT STARTED
 
-**Note**: Tasks 16 (Memory Systems) and 17 (RAG with Bedrock Knowledge Bases) are advanced features from the design document but are NOT critical for MVP launch. Prioritize Phase 5 (UX), Phase 7 (Production Readiness), and Phase 8 (Launch) first.
+**Note**: Tasks 16 (Memory Systems) and 17 (Enhanced Citation Tracking) are advanced features from the design document but are NOT critical for MVP launch. Task 17 has been updated to enhance the existing DynamoDB + Titan vector search system instead of adding Kendra/OpenSearch. Task 14.8 (AWS Agent Alignment) is HIGH priority for pre-launch quality assurance. Prioritize Phase 4 completion (Task 14.8), Phase 5 (UX), Phase 7 (Production Readiness), and Phase 8 (Launch).
 
 ## Recommended Next Steps (Priority Order)
 
 **For MVP Launch** (Critical Path):
-1. **Task 15: Onboarding & UX Flow** (8-10 hours) - Welcome screens, smart defaults, error recovery
-2. **Task 19: Testing Framework** (6-8 hours) - Integration tests, E2E tests, CI/CD pipeline
-3. **Task 20: Production Deployment** (8-10 hours) - Automated deployment, blue-green, monitoring
-4. **Task 21: User Documentation** (4-6 hours) - User guides, tutorials, troubleshooting
-5. **Task 22: User Acceptance Testing** (6-8 hours) - UAT plan, test execution, feedback
-6. **Task 23: Launch Preparation** (4-6 hours) - Final checks, rollback plan, launch checklist
-7. **Task 24: Marketing & Communication** (3-4 hours) - Launch announcement, demo video
-8. **Task 25: Production Launch** (2-3 hours) - Deploy to production, monitor
-9. **Task 26: Post-Launch Monitoring** (ongoing) - Monitor metrics, gather feedback
-10. **Task 27: Iteration & Improvement** (ongoing) - Address feedback, optimize
+1. **Task 14.8: AWS Agent Alignment** (6-8 hours) - Architecture validation, agent training, auto-fix
+2. **Task 15: Onboarding & UX Flow** (8-10 hours) - Welcome screens, smart defaults, error recovery
+3. **Task 19: Testing Framework** (6-8 hours) - Integration tests, E2E tests, CI/CD pipeline
+4. **Task 20: Production Deployment** (8-10 hours) - Automated deployment, blue-green, monitoring
+5. **Task 21: User Documentation** (4-6 hours) - User guides, tutorials, troubleshooting
+6. **Task 22: User Acceptance Testing** (6-8 hours) - UAT plan, test execution, feedback
+7. **Task 23: Launch Preparation** (4-6 hours) - Final checks, rollback plan, launch checklist
+8. **Task 24: Marketing & Communication** (3-4 hours) - Launch announcement, demo video
+9. **Task 25: Production Launch** (2-3 hours) - Deploy to production, monitor
+10. **Task 26: Post-Launch Monitoring** (ongoing) - Monitor metrics, gather feedback
+11. **Task 27: Iteration & Improvement** (ongoing) - Address feedback, optimize
 
 **Optional Post-MVP** (Advanced Features):
 - Task 16: Memory Systems (12-16 hours) - Short-term, long-term, episodic memory
-- Task 17: RAG with Bedrock Knowledge Bases (10-12 hours) - Citation tracking, knowledge versioning
+- Task 17: Enhanced Citation Tracking (6-8 hours) - Citation metadata, knowledge versioning, source reliability (enhances existing DynamoDB + Titan system)
 - Task 18: Project Persistence (14-18 hours) - Save/restore, version control, collaboration
 
-**Total Estimated Time to MVP**: ~45-60 hours of focused development
+**Total Estimated Time to MVP**: ~51-68 hours of focused development
 
 **Breakdown**:
+- Phase 4 Completion (Task 14.8): 6-8 hours
 - Phase 5 (UX): 8-10 hours
 - Phase 7 (Production): 14-18 hours
 - Phase 8 (Launch): 23-31 hours
-- **Total**: 45-59 hours
+- **Total**: 51-67 hours
 
 **Phase Status**:
 - ✅ **Phase 1 - Core Infrastructure**: 100% Complete (Tasks 1-6)
@@ -601,6 +603,186 @@ useGeneratedCode(agentId) → CodeWorkspace
 
 ---
 
+### Task 14.8: AWS Service Agent Alignment & Architecture Validation 🔲
+**Status**: NOT STARTED (0/4 sub-tasks)  
+**Estimated**: 6-8 hours  
+**Requirements**: 1.1-1.3, 4.1-4.3, 11.1, 11.2  
+**Priority**: HIGH (Pre-Launch Quality Gate)  
+**Dependencies**: Task 14.6 (Architecture Tab with AWS icons)
+
+**Objective**: Ensure 100% accuracy in AI-generated AWS architecture diagrams by creating a comprehensive agent alignment system that validates service selection, labeling, and use case matching.
+
+**Current Foundation**:
+- ✅ `frontend/AWS-SERVICE-REGISTRY.md` - Official AWS service mapping (19 services)
+- ✅ `frontend/src/components/__tests__/AWSServiceValidation.test.tsx` - 13 validation tests passing
+- ✅ `frontend/AWS-ARCHITECTURE-CONFIDENCE-SYSTEM.md` - Confidence scoring framework
+
+**Problem**: AI agents may generate architectures with incorrect service names, inappropriate service selections, or invalid connections without real-time validation.
+
+**Solution**: Multi-layer validation system that trains agents, validates architectures in real-time, and provides auto-fix functionality.
+
+**Sub-Tasks**:
+
+#### 14.8.1: Agent Training Documentation 🔲
+**Estimated**: 2-3 hours
+
+**Deliverables**:
+- [ ] Create `agents/AWS_ARCHITECTURE_TRAINING.md` - Complete training guide for AI agents
+  - Service selection decision trees (when to use Lambda vs ECS, DynamoDB vs RDS, etc.)
+  - Use case to architecture mapping (simple, medium, complex, enterprise)
+  - Common patterns library (20+ patterns: serverless API, microservices, data pipeline, etc.)
+  - Anti-patterns and mistakes to avoid
+  - Complexity level guidelines (3-5 services, 6-10 services, 11-20 services, 20+ services)
+- [ ] Create `agents/AWS_SERVICE_USE_CASES.md` - Detailed use case mapping
+  - Industry-specific patterns (e-commerce, fintech, healthcare, IoT, etc.)
+  - Pattern selection criteria
+  - Service compatibility matrix
+
+**Files to Create**:
+- `agents/AWS_ARCHITECTURE_TRAINING.md`
+- `agents/AWS_SERVICE_USE_CASES.md`
+
+**Requirements**: 1.1-1.3, 4.1-4.3
+
+---
+
+#### 14.8.2: Backend Architecture Validator 🔲
+**Estimated**: 2-3 hours
+
+**Deliverables**:
+- [ ] Create `agents/architecture_validator.py` - Architecture validation service
+  - Validate service selections against use cases
+  - Check service compatibility (can these services work together?)
+  - Verify connection validity (can service A connect to service B?)
+  - Calculate architecture confidence score (0-100)
+  - Suggest improvements and alternatives
+- [ ] Create `api/architecture_validation_endpoint.py` - API endpoints
+  - POST /api/validate-architecture
+  - POST /api/suggest-services
+  - GET /api/architecture-patterns
+
+**Validation Functions**:
+```python
+class ArchitectureValidator:
+    def validate_architecture(self, architecture: Dict) -> ValidationResult:
+        """Validates architecture against best practices"""
+        
+    def suggest_services(self, requirements: Dict) -> List[ServiceRecommendation]:
+        """Recommends AWS services based on requirements"""
+        
+    def check_compatibility(self, services: List[str]) -> CompatibilityReport:
+        """Checks if selected services work well together"""
+        
+    def calculate_confidence(self, architecture: Dict) -> float:
+        """Calculates architecture confidence (0-100)"""
+```
+
+**Files to Create**:
+- `agents/architecture_validator.py`
+- `api/architecture_validation_endpoint.py`
+
+**Requirements**: 4.1-4.3, 11.1, 11.2
+
+---
+
+#### 14.8.3: Frontend Validation UI 🔲
+**Estimated**: 2-3 hours
+
+**Deliverables**:
+- [ ] Create `frontend/src/components/ArchitectureValidator.tsx` - Validation UI component
+  - Real-time validation as diagram is generated
+  - Visual indicators for issues (red/yellow/green highlighting)
+  - Suggestion panel for improvements
+  - Confidence score display with breakdown
+  - "Fix Issues" button with auto-correction
+- [ ] Integrate with ArchitectureTab component
+  - Show validation results inline
+  - Display confidence score prominently
+  - Highlight problematic services/connections
+  - Offer one-click fixes
+
+**Features**:
+- Real-time validation during generation
+- Visual highlighting of issues in diagram
+- Inline suggestions and fixes
+- Confidence breakdown by category (naming, selection, connections, patterns, best practices)
+- One-click issue resolution
+
+**Files to Create**:
+- `frontend/src/components/ArchitectureValidator.tsx`
+
+**Files to Modify**:
+- `frontend/src/components/ArchitectureTab.tsx`
+
+**Requirements**: 11.1, 11.2
+
+---
+
+#### 14.8.4: Integration & Testing 🔲
+**Estimated**: 1-2 hours
+
+**Deliverables**:
+- [ ] Create `agents/__tests__/test_architecture_validator.py` - Backend validation tests
+  - Test service selection for 20+ use cases
+  - Test compatibility checking
+  - Test confidence calculation
+  - Test suggestion engine
+- [ ] Create `frontend/src/components/__tests__/ArchitectureValidator.test.tsx` - Frontend tests
+  - Test validation UI rendering
+  - Test real-time validation
+  - Test suggestion display
+  - Test auto-fix functionality
+- [ ] Integrate validator with AWS Solutions Architect agent
+  - Load training documentation on initialization
+  - Use validator before returning architectures
+  - Include confidence scores in responses
+
+**Files to Create**:
+- `agents/__tests__/test_architecture_validator.py`
+- `frontend/src/components/__tests__/ArchitectureValidator.test.tsx`
+
+**Files to Modify**:
+- `agents/aws_solutions_architect.py`
+
+**Requirements**: 1.1-1.3, 4.1-4.3
+
+---
+
+**Confidence Scoring System** (100 points total):
+1. **Service Naming** (20 pts): Official AWS names vs abbreviations
+2. **Service Selection** (25 pts): Appropriate for use case
+3. **Service Connections** (20 pts): Valid connections between services
+4. **Architecture Pattern** (15 pts): Matches known patterns
+5. **Best Practices** (10 pts): Follows AWS Well-Architected Framework
+6. **Completeness** (10 pts): All required services present
+
+**Confidence Levels**:
+- 95-100%: Production-ready, no issues
+- 90-94%: Minor improvements suggested
+- 85-89%: Some issues, review recommended
+- 80-84%: Multiple issues, revision needed
+- < 80%: Significant problems, regenerate
+
+**Success Criteria**:
+- [ ] All 13 existing validation tests passing
+- [ ] Agent training documentation complete
+- [ ] Architecture validator implemented and tested
+- [ ] Validation UI integrated into Architecture Tab
+- [ ] 95%+ confidence on test architectures
+- [ ] Support for all complexity levels (simple to enterprise)
+- [ ] Real-time validation < 100ms
+- [ ] Auto-fix success rate > 90%
+
+**Integration Points**:
+- AWS Solutions Architect agent uses training docs
+- Architecture Tab shows validation results
+- Confidence Dashboard includes architecture validation factor
+- Export service validates before generating code
+
+**Requirements**: 1.1-1.3, 4.1-4.3, 11.1, 11.2
+
+---
+
 ## Phase 5: UX Enhancement 🔲 NOT STARTED
 
 ### Task 15: Onboarding & UX Flow 🔲
@@ -733,58 +915,109 @@ useGeneratedCode(agentId) → CodeWorkspace
 
 ---
 
-### Task 17: RAG System with Bedrock Knowledge Bases 🔲
+### Task 17: Enhanced Citation Tracking & Knowledge Versioning 🔲
 **Status**: NOT STARTED (0/3 sub-tasks)  
-**Estimated**: 10-12 hours  
+**Estimated**: 6-8 hours  
 **Requirements**: 17.1-17.3  
-**Priority**: MEDIUM
+**Priority**: LOW (Post-MVP Enhancement)
+
+**Note**: This task enhances the existing DynamoDB + Bedrock Titan vector search system. The platform already implements RAG (Retrieval-Augmented Generation) without needing Kendra or OpenSearch. This task adds explicit citation tracking and knowledge versioning to the current implementation.
+
+**Current Implementation**:
+- ✅ Vector search with Bedrock Titan embeddings (1536 dimensions)
+- ✅ DynamoDB caching with semantic search
+- ✅ Multi-source validation across 16 MCPs
+- ✅ Confidence scoring and source tracking
+- ✅ Automated knowledge sync (2-3x weekly)
 
 **Objectives**:
-- Ground agent responses in verified facts
-- Provide source citations for all claims
-- Enable knowledge base versioning
+- Add explicit citation metadata to all knowledge responses
+- Implement knowledge versioning with change tracking
+- Enhance source reliability scoring
+- Add citation display in UI
 
 **Sub-Tasks**:
 
-#### 17.1: Set up Amazon Bedrock Knowledge Bases 🔲
-**Estimated**: 4-5 hours
+#### 17.1: Enhanced Citation Tracking 🔲
+**Estimated**: 2-3 hours
 
 **Deliverables**:
-- [ ] Configure Bedrock Knowledge Base with OpenSearch or Kendra
-- [ ] Implement knowledge base data ingestion
-- [ ] Build knowledge base update pipeline
-- [ ] Add versioning and update tracking
-- [ ] Create knowledge base health monitoring
+- [ ] Add citation metadata to KnowledgeItem dataclass (source MCP, document URL, timestamp, confidence, similarity)
+- [ ] Update enhanced_knowledge_service.py to populate citation metadata
+- [ ] Add citation extraction from MCP responses
+- [ ] Create citation formatting utilities
+- [ ] Add citation deduplication logic
 
-**Requirements**: 17.1, 17.2, 17.3
-
----
-
-#### 17.2: Citation Tracking and Verification 🔲
-**Estimated**: 3-4 hours
-
-**Deliverables**:
-- [ ] Build citation extraction from knowledge base
-- [ ] Create source verification system
-- [ ] Implement citation display in UI
-- [ ] Add source reliability scoring
-- [ ] Build citation audit trail
+**Files to Modify**:
+- `mcp-integration/enhanced_knowledge_service.py`
 
 **Requirements**: 17.2
 
 ---
 
-#### 17.3: Query-Retrieve-Generate Workflow 🔲
-**Estimated**: 3-4 hours
+#### 17.2: Knowledge Versioning System 🔲
+**Estimated**: 2-3 hours
 
 **Deliverables**:
-- [ ] Implement RAG query pipeline
-- [ ] Build context retrieval from knowledge base
-- [ ] Create response generation with citations
-- [ ] Add relevance scoring for retrieved documents
-- [ ] Implement fallback strategies
+- [ ] Add version tracking to DynamoDB knowledge cache
+- [ ] Implement change detection for knowledge updates
+- [ ] Create version history tracking in DynamoDB items
+- [ ] Add version comparison utilities
+- [ ] Implement rollback capability for knowledge items
+- [ ] Add version metadata to search results
 
-**Requirements**: 17.1, 17.2, 17.3
+**Files to Create**:
+- `mcp-integration/knowledge_version_manager.py`
+
+**Files to Modify**:
+- `mcp-integration/enhanced_knowledge_service.py`
+
+**Requirements**: 17.3
+
+---
+
+#### 17.3: Source Reliability Scoring 🔲
+**Estimated**: 2-3 hours
+
+**Deliverables**:
+- [ ] Implement source reliability scoring algorithm (uptime, consistency, freshness, validation)
+- [ ] Track MCP source accuracy over time
+- [ ] Add reliability scores to citation metadata
+- [ ] Create source ranking system based on reliability
+- [ ] Add reliability-based result filtering
+- [ ] Implement feedback loop for reliability updates
+
+**Files to Create**:
+- `mcp-integration/source_reliability_scorer.py`
+
+**Files to Modify**:
+- `mcp-integration/enhanced_knowledge_service.py`
+- `mcp-integration/mcp_health_monitor.py`
+
+**Requirements**: 17.1, 17.2
+
+---
+
+**Integration Points**:
+- Enhanced knowledge service returns results with citations
+- Citations displayed in chat interface
+- Version history accessible via API endpoint
+- Reliability scores influence search result ranking
+- Admin dashboard shows source reliability metrics
+
+**Success Criteria**:
+- [ ] All knowledge responses include citation metadata
+- [ ] Version history tracked for all knowledge items
+- [ ] Reliability scores calculated for all MCP sources
+- [ ] Citations displayed in UI with source links
+- [ ] Version comparison available via API
+- [ ] Rollback functionality tested and working
+- [ ] Reliability-based ranking improves result quality
+- [ ] Performance impact < 50ms per query
+
+**Cost Impact**: $0 (uses existing DynamoDB and Bedrock Titan)
+
+**Requirements**: 17.1-17.3
 
 ---
 

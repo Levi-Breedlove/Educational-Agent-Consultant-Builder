@@ -1,11 +1,59 @@
-# Spec Overview: Strands Multi-Agent System
+# Spec Overview: Agent Builder Platform Ecosystem
 
 ## Summary
 
-The Agent Builder Platform is being enhanced with comprehensive Strands multi-agent compatibility through two sequential specs:
+The Agent Builder Platform has three specifications that work together:
 
-1. **strands-multi-agent-compatibility** (Phase 1 - Foundation)
-2. **strands-advanced-features** (Phase 2 - Advanced Capabilities)
+1. **agent-builder-platform** (Current - MVP Implementation)
+2. **strands-multi-agent-compatibility** (Future - Phase 1 Foundation)
+3. **strands-advanced-features** (Future - Phase 2 Advanced Capabilities)
+
+---
+
+## Spec 0: Agent Builder Platform (Current MVP)
+
+**Location**: `.kiro/specs/agent-builder-platform/`
+
+**Status**: 🔄 In Progress (14/28 tasks complete, 50%)
+
+**Estimated Remaining Effort**: 51-68 hours
+
+### What It Includes
+
+**8 Core Requirements**:
+1. Natural language use case analysis
+2. 16 MCP ecosystem with vector search
+3. Strands agent builder integration
+4. Multi-agent collaboration
+5. Step-by-step guidance
+6. Testing and validation
+7. Export and deployment
+8. 95% confidence system
+
+**28 Implementation Tasks** (14 complete):
+- ✅ Phase 1: Core Infrastructure (6/6 complete)
+- ✅ Phase 2: AI Agents (4/4 complete)
+- ✅ Phase 3: Backend API (1/1 complete)
+- 🔄 Phase 4: Frontend UI (3/4 complete - Task 14.8 remaining)
+- 🔲 Phase 5: UX Enhancement (0/1)
+- 🔲 Phase 6: Advanced Features (0/3, optional)
+- 🔲 Phase 7: Production Readiness (0/9)
+- 🔲 Phase 8: Launch (0/7)
+
+### Key Deliverables
+
+- ✅ 5 Specialist AI Agents (AWS Solutions, Architecture, Implementation, Testing, Strands)
+- ✅ 16 MCP Ecosystem with DynamoDB + Bedrock Titan vector search
+- ✅ FastAPI Backend (11 endpoints, WebSocket support)
+- ✅ React Frontend (TypeScript, Material-UI, tabbed interface)
+- ✅ Export Service (5 formats, 24 code generators)
+- ✅ 95% Confidence System with multi-factor scoring
+- 🔲 AWS Service Agent Alignment (Task 14.8 - HIGH PRIORITY)
+- 🔲 Production deployment and launch
+
+**Next Steps**: Complete Task 14.8, then Tasks 15, 19, 20, 21-27 for MVP launch
+
+---
 
 ## Spec 1: Strands Multi-Agent Compatibility
 
@@ -185,13 +233,19 @@ If you want to deliver value incrementally:
 
 ```
 .kiro/specs/
-├── agent-builder-platform/          # Original platform spec
-├── strands-multi-agent-compatibility/  # Spec 1 (Phase 1)
+├── SPEC-OVERVIEW.md                 # This file - overview of all specs
+├── agent-builder-platform/          # Spec 0 - Current MVP (14/28 tasks, 50%)
+│   ├── requirements.md              # 8 core requirements
+│   ├── design.md                    # Architecture & components
+│   ├── tasks.md                     # 28 implementation tasks
+│   ├── ALIGNMENT-REPORT.md          # Current alignment status
+│   └── SYNC-COMPLETE.md             # Synchronization summary
+├── strands-multi-agent-compatibility/  # Spec 1 - Future Phase 1 (0/22 tasks)
 │   ├── requirements.md              # 10 requirements
 │   ├── design.md                    # Architecture & components
 │   ├── tasks.md                     # 22 implementation tasks
 │   └── ENHANCEMENTS.md              # Link to Spec 2
-└── strands-advanced-features/       # Spec 2 (Phase 2)
+└── strands-advanced-features/       # Spec 2 - Future Phase 2 (0/40 tasks)
     ├── README.md                    # Overview & getting started
     ├── requirements.md              # 10 requirements
     ├── design.md                    # Architecture & components
@@ -202,20 +256,26 @@ If you want to deliver value incrementally:
 
 ## Getting Started
 
-### To Start Spec 1
+### Current Work: Agent Builder Platform MVP
 
-1. Open `.kiro/specs/strands-multi-agent-compatibility/tasks.md`
-2. Click "Start task" next to Task 1
-3. Follow the implementation plan
+1. Open `.kiro/specs/agent-builder-platform/tasks.md`
+2. **Priority**: Start with Task 14.8 (AWS Service Agent Alignment)
+3. Then complete Tasks 15, 19, 20, 21-27 for MVP launch
+4. **Status**: 14/28 tasks complete (50%)
+
+### Future Work: Strands Multi-Agent (After MVP)
+
+1. **First**: Complete Agent Builder Platform MVP
+2. Open `.kiro/specs/strands-multi-agent-compatibility/tasks.md`
+3. Click "Start task" next to Task 1
 4. Complete all 22 tasks
 
-### To Start Spec 2
+### Future Work: Strands Advanced (After Phase 1)
 
-1. **First**: Complete Spec 1
+1. **First**: Complete Strands Multi-Agent Compatibility
 2. Open `.kiro/specs/strands-advanced-features/tasks.md`
 3. Click "Start task" next to Task 1
-4. Follow the implementation plan
-5. Complete all 40 tasks
+4. Complete all 40 tasks
 
 ---
 
@@ -246,12 +306,24 @@ If you want to deliver value incrementally:
 
 ## Questions?
 
-- **Spec 1 Questions**: See `.kiro/specs/strands-multi-agent-compatibility/`
-- **Spec 2 Questions**: See `.kiro/specs/strands-advanced-features/`
+- **Current MVP Questions**: See `.kiro/specs/agent-builder-platform/`
+- **Strands Phase 1 Questions**: See `.kiro/specs/strands-multi-agent-compatibility/`
+- **Strands Phase 2 Questions**: See `.kiro/specs/strands-advanced-features/`
 - **General Questions**: Review this overview document
 
 ---
 
-**Status**: ✅ Both specs ready for implementation
-**Recommended Start**: Spec 1 (strands-multi-agent-compatibility)
-**Total Effort**: 216-288 hours (5-7 weeks)
+## Total Effort Summary
+
+| Spec | Status | Tasks | Effort | Timeline |
+|------|--------|-------|--------|----------|
+| **Agent Builder Platform** | 🔄 In Progress | 14/28 (50%) | 51-68 hours remaining | 1-2 weeks |
+| **Strands Multi-Agent** | 📝 Future | 0/22 (0%) | 76-98 hours | 2-2.5 weeks |
+| **Strands Advanced** | 📝 Future | 0/40 (0%) | 140-190 hours | 3.5-4.5 weeks |
+| **Total** | - | **14/90 (16%)** | **267-356 hours** | **6.5-9 weeks** |
+
+---
+
+**Current Status**: ✅ Agent Builder Platform MVP in progress (50% complete)
+**Recommended Next**: Complete Task 14.8, then MVP launch tasks
+**Future Roadmap**: Strands integration after MVP launch

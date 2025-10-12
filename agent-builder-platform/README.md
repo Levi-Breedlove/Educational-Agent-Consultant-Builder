@@ -17,10 +17,10 @@
 **You learn by doing** - the consultants guide you through building a Strands agent on AWS while explaining why each decision matters.
 
 ### Specifically Designed For:
-- ✅ **Strands Agent Builder**: Learn to use Strands framework for agent development
-- ✅ **AWS Services**: Lambda, Bedrock, DynamoDB, S3, API Gateway, etc.
-- ✅ **AWS Well-Architected**: Security, reliability, performance, cost optimization
-- ✅ **Production Deployment**: Real-world AWS infrastructure and monitoring
+- **Strands Agent Builder**: Learn to use Strands framework for agent development
+- **AWS Services**: Lambda, Bedrock, DynamoDB, S3, API Gateway, etc.
+- **AWS Well-Architected**: Security, reliability, performance, cost optimization
+- **Production Deployment**: Real-world AWS infrastructure and monitoring
 
 ## The 5 AI Consultants (AWS & Strands Experts)
 
@@ -32,7 +32,7 @@
 
 ## Current Status
 
-**Backend: 100% Complete** | **Frontend: Not Started**
+**Backend: 100% Complete** | **Frontend: 100% Complete** | **Overall: 52% Complete (14/27 tasks)**
 
 See [STATUS-DASHBOARD.md](docs/STATUS-DASHBOARD.md) for detailed progress.
 

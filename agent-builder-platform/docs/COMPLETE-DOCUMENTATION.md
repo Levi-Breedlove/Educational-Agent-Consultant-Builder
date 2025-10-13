@@ -33,7 +33,7 @@ This is not just a code generator - it's a **learning platform** specifically fo
 - How to deploy and monitor **Strands agents** on AWS infrastructure
 
 ### The Problem
-Building production-ready Strands agents on AWS requires expertise that takes years to develop:
+Building production-ready Strands agents on AWS requires expertise that takes weeks to develop:
 - **Strands agent builder** framework and configuration
 - **AWS architecture** and service selection (Lambda, Bedrock, DynamoDB, S3)
 - **AWS Well-Architected** principles (security, reliability, performance, cost)

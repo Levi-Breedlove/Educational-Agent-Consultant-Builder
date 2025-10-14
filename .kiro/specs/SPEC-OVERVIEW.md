@@ -1,18 +1,25 @@
 # Spec Overview: Agent Builder Platform Ecosystem
 
-## Summary
-
-The Agent Builder Platform has three specifications that work together:
-
-1. **agent-builder-platform** (Current - MVP Implementation)
-2. **strands-multi-agent-compatibility** (Future - Phase 1 Foundation)
-3. **strands-advanced-features** (Future - Phase 2 Advanced Capabilities)
+**Quick Links**:
+- **[PROJECT-STATUS.md](./PROJECT-STATUS.md)** - Current status, progress, and alignment
+- **[PROJECT-SPEC-RUNDOWN.md](./PROJECT-SPEC-RUNDOWN.md)** - Comprehensive project rundown
 
 ---
 
-## Spec 0: Agent Builder Platform (Current MVP)
+## Summary
 
-**Location**: `.kiro/specs/agent-builder-platform/`
+The Agent Builder Platform has four specifications that work together:
+
+1. **phase-0-agent-builder-platform** (Phase 0 - Current MVP Implementation)
+2. **phase-1.5-code-generation-integration** (Phase 1.5 - Code Generation)
+3. **phase-1-strands-multi-agent-compatibility** (Phase 1 - Multi-Agent Foundation)
+4. **phase-2-strands-advanced-features** (Phase 2 - Advanced Capabilities)
+
+---
+
+## Phase 0: Agent Builder Platform (Current MVP)
+
+**Location**: `.kiro/specs/phase-0-agent-builder-platform/`
 
 **Status**: 🔄 In Progress (14/28 tasks complete, 50%)
 
@@ -55,9 +62,59 @@ The Agent Builder Platform has three specifications that work together:
 
 ---
 
-## Spec 1: Strands Multi-Agent Compatibility
+## Phase 1.5: Code Generation Integration
 
-**Location**: `.kiro/specs/strands-multi-agent-compatibility/`
+**Location**: `.kiro/specs/phase-1.5-code-generation-integration/`
+
+**Status**: 📝 Ready for implementation (after Phase 0)
+
+**Estimated Effort**: 120-160 hours (3-4 weeks)
+
+**Dependencies**: Phase 0 (MVP) must be complete
+
+**Can Run Parallel With**: Phase 1 (Strands Multi-Agent)
+
+### What It Includes
+
+**12 Core Requirements**:
+1. Code Generation Integration
+2. Model Registry Integration (49+ models)
+3. Tool Registry and Selection (50+ tools)
+4. AgentCore Deployment Generation
+5. Multi-Cloud Deployment Support (AWS, Azure, GCP)
+6. Code Preview and Download
+7. Testing Infrastructure Integration
+8. Consultation Context Integration
+9. Private Repository Integration
+10. Frontend UI Integration
+11. Cost Estimation and Optimization
+12. Security and Best Practices
+
+**23 Implementation Tasks** (95 sub-tasks):
+- Backend Integration (Tasks 1-11): Model/Tool registries, code generation engine, deployment generators, cost service, testing service, API endpoints, database schema
+- Frontend Integration (Tasks 12-17): ModelSelector, ToolSelector, CodePreview, CostEstimator, TestRunner components
+- Polish & Production (Tasks 18-23): Security, performance, error handling, documentation, E2E testing, feature flags
+
+### Key Deliverables
+
+- ✅ Model Registry with 49+ AI models (AWS Bedrock, Ollama, OpenAI)
+- ✅ Tool Registry with 50+ pre-configured tools (RAG, Memory, Code, Web, File System)
+- ✅ Code Generation Engine with production-ready templates
+- ✅ Deployment generators for AWS, Azure, GCP, and AWS Bedrock AgentCore
+- ✅ Cost estimation service with real-time calculations
+- ✅ Docker-based testing infrastructure
+- ✅ Frontend components for model/tool selection and code preview
+- ✅ Context extraction from consultation conversations
+
+**Value Proposition**: Transforms the platform from consultation-only to end-to-end agent creation with actual code generation and deployment capabilities.
+
+**Next Steps**: Begin after Phase 0 MVP launch. Can be implemented in parallel with Phase 1 (Strands) as they are independent.
+
+---
+
+## Phase 1: Strands Multi-Agent Compatibility
+
+**Location**: `.kiro/specs/phase-1-strands-multi-agent-compatibility/`
 
 **Status**: 📝 Ready for implementation
 
@@ -98,11 +155,13 @@ The Agent Builder Platform has three specifications that work together:
 
 ---
 
-## Spec 2: Strands Advanced Features
+## Phase 2: Strands Advanced Features
 
-**Location**: `.kiro/specs/strands-advanced-features/`
+**Location**: `.kiro/specs/phase-2-strands-advanced-features/`
 
-**Status**: 📝 Planning Phase (depends on Spec 1)
+**Status**: 📝 Planning Phase (depends on Phase 1)
+
+**Dependencies**: Phase 1 (Strands Multi-Agent) must be complete
 
 **Estimated Effort**: 140-190 hours (3.5-4.5 weeks)
 
@@ -141,15 +200,17 @@ The Agent Builder Platform has three specifications that work together:
 
 ## Combined Effort
 
-**Total Estimated Effort**: 216-288 hours (5-7 weeks for 1 developer, 3-4 weeks for 2 developers)
+**Total Estimated Effort**: 387-516 hours (9-13 weeks for 1 developer, 5-7 weeks for 2 developers)
 
 ### Phase Breakdown
 
 | Phase | Spec | Tasks | Effort | Duration |
 |-------|------|-------|--------|----------|
-| Phase 1 | Multi-Agent Compatibility | 22 | 76-98 hours | 2-2.5 weeks |
-| Phase 2 | Advanced Features | 40 | 140-190 hours | 3.5-4.5 weeks |
-| **Total** | **Both Specs** | **62** | **216-288 hours** | **5-7 weeks** |
+| Phase 0 | Agent Builder Platform (MVP) | 14/28 remaining | 51-68 hours | 1-2 weeks |
+| **Phase 1.5** | **Code Generation Integration** | **23 (95 sub-tasks)** | **120-160 hours** | **3-4 weeks** |
+| Phase 1 | Strands Multi-Agent Compatibility | 22 | 76-98 hours | 2-2.5 weeks |
+| Phase 2 | Strands Advanced Features | 40 | 140-190 hours | 3.5-4.5 weeks |
+| **Total** | **All Phases** | **~107** | **387-516 hours** | **9-13 weeks** |
 
 ---
 
@@ -157,14 +218,27 @@ The Agent Builder Platform has three specifications that work together:
 
 ### Recommended Approach
 
-1. **Complete Spec 1 First** (strands-multi-agent-compatibility)
-   - Provides foundation for everything else
-   - Delivers immediate value (4 Strands patterns)
-   - Enables basic multi-agent coordination
+1. **Complete Phase 0 First** (agent-builder-platform MVP)
+   - Foundation for all other phases
+   - Core consultation platform
+   - 51-68 hours remaining
 
-2. **Then Proceed to Spec 2** (strands-advanced-features)
-   - Builds on Spec 1 foundation
+2. **Then Phase 1.5** (code-generation-integration)
+   - Transforms platform to end-to-end solution
+   - Provides immediate value (actual code generation)
+   - Can run in parallel with Phase 1
+   - 120-160 hours
+
+3. **Then Phase 1** (strands-multi-agent-compatibility)
+   - Enables multi-agent coordination
+   - Delivers 4 Strands patterns
+   - Can run in parallel with Phase 1.5
+   - 76-98 hours
+
+4. **Finally Phase 2** (strands-advanced-features)
+   - Builds on Phase 1 foundation
    - Adds sophisticated capabilities
+   - 140-190 hours
    - Enhances agent intelligence
 
 ### Alternative: Phased Approach
@@ -192,7 +266,15 @@ If you want to deliver value incrementally:
 
 ## Success Metrics
 
-### Spec 1 Success Metrics
+### Phase 1.5 Success Metrics
+- ✅ Code generation success rate > 95%
+- ✅ API response time < 500ms (p95)
+- ✅ Frontend load time < 2 seconds
+- ✅ % users who generate code > 70%
+- ✅ Code quality rating > 4.5/5
+- ✅ Time to deployment < 30 minutes
+
+### Phase 1 Success Metrics
 - ✅ All 5 agents support Strands metadata
 - ✅ All 4 Strands patterns implemented and tested
 - ✅ Agent communication protocol has 99%+ reliability
@@ -200,7 +282,7 @@ If you want to deliver value incrementally:
 - ✅ Backward compatibility maintained
 - ✅ Performance overhead < 10%
 
-### Spec 2 Success Metrics
+### Phase 2 Success Metrics
 - ✅ Agent Loop implemented for all 5 agents
 - ✅ State management with 99%+ persistence reliability
 - ✅ Structured output with 100% schema validation
@@ -214,14 +296,22 @@ If you want to deliver value incrementally:
 
 ## Dependencies
 
-### Spec 1 Dependencies
-- ✅ Existing Agent Builder Platform
+### Phase 1.5 Dependencies
+- ✅ Phase 0 (MVP) completion required
+- ✅ Implementation Guide agent operational
+- ✅ Orchestrator with implementation phase
+- ✅ API endpoints functional
+- ✅ Frontend tabbed interface
+
+### Phase 1 Dependencies
+- ✅ Phase 0 (MVP) completion required
 - ✅ 5 specialist agents
 - ✅ Orchestrator
 - ✅ 16 MCPs
+- ⚠️ Independent of Phase 1.5 (can run in parallel)
 
-### Spec 2 Dependencies
-- ✅ Spec 1 completion (required)
+### Phase 2 Dependencies
+- ✅ Phase 1 completion (required)
 - ✅ Agent Communication Protocol
 - ✅ Shared Memory System
 - ✅ Basic Strands patterns
@@ -233,47 +323,65 @@ If you want to deliver value incrementally:
 
 ```
 .kiro/specs/
-├── SPEC-OVERVIEW.md                 # This file - overview of all specs
-├── agent-builder-platform/          # Spec 0 - Current MVP (14/28 tasks, 50%)
-│   ├── requirements.md              # 8 core requirements
-│   ├── design.md                    # Architecture & components
-│   ├── tasks.md                     # 28 implementation tasks
-│   ├── ALIGNMENT-REPORT.md          # Current alignment status
-│   └── SYNC-COMPLETE.md             # Synchronization summary
-├── strands-multi-agent-compatibility/  # Spec 1 - Future Phase 1 (0/22 tasks)
-│   ├── requirements.md              # 10 requirements
-│   ├── design.md                    # Architecture & components
-│   ├── tasks.md                     # 22 implementation tasks
-│   └── ENHANCEMENTS.md              # Link to Spec 2
-└── strands-advanced-features/       # Spec 2 - Future Phase 2 (0/40 tasks)
-    ├── README.md                    # Overview & getting started
-    ├── requirements.md              # 10 requirements
-    ├── design.md                    # Architecture & components
-    └── tasks.md                     # 40 implementation tasks
+├── SPEC-OVERVIEW.md                                    # This file - overview of all specs
+├── SPEC-ALIGNMENT-REPORT.md                            # Phase alignment report
+├── CURRENT-SPEC-STATUS.md                              # Current status of all specs
+├── PROJECT-SPEC-RUNDOWN.md                             # Project rundown
+├── PHASE-ALIGNMENT-COMPLETE.md                         # Phase alignment confirmation
+├── phase-0-agent-builder-platform/                     # Phase 0 - Current MVP (14/28 tasks, 50%)
+│   ├── requirements.md                                 # 8 core requirements
+│   ├── design.md                                       # Architecture & components
+│   ├── tasks.md                                        # 28 implementation tasks
+│   ├── ALIGNMENT-REPORT.md                             # Current alignment status
+│   └── SYNC-COMPLETE.md                                # Synchronization summary
+├── phase-1.5-code-generation-integration/              # Phase 1.5 - Code Generation (0/23 tasks)
+│   ├── README.md                                       # Overview & getting started
+│   ├── requirements.md                                 # 12 requirements
+│   ├── design.md                                       # Architecture & components
+│   └── tasks.md                                        # 23 implementation tasks (95 sub-tasks)
+├── phase-1-strands-multi-agent-compatibility/          # Phase 1 - Multi-Agent (0/22 tasks)
+│   ├── requirements.md                                 # 10 requirements
+│   ├── design.md                                       # Architecture & components
+│   ├── tasks.md                                        # 22 implementation tasks
+│   └── ENHANCEMENTS.md                                 # Link to Phase 2
+└── phase-2-strands-advanced-features/                  # Phase 2 - Advanced (0/40 tasks)
+    ├── README.md                                       # Overview & getting started
+    ├── requirements.md                                 # 10 requirements
+    ├── design.md                                       # Architecture & components
+    └── tasks.md                                        # 40 implementation tasks
 ```
 
 ---
 
 ## Getting Started
 
-### Current Work: Agent Builder Platform MVP
+### Current Work: Phase 0 - Agent Builder Platform MVP
 
-1. Open `.kiro/specs/agent-builder-platform/tasks.md`
+1. Open `.kiro/specs/phase-0-agent-builder-platform/tasks.md`
 2. **Priority**: Start with Task 14.8 (AWS Service Agent Alignment)
 3. Then complete Tasks 15, 19, 20, 21-27 for MVP launch
 4. **Status**: 14/28 tasks complete (50%)
 
-### Future Work: Strands Multi-Agent (After MVP)
+### Next Work: Phase 1.5 - Code Generation Integration (After MVP)
 
-1. **First**: Complete Agent Builder Platform MVP
-2. Open `.kiro/specs/strands-multi-agent-compatibility/tasks.md`
+1. **First**: Complete Phase 0 (MVP)
+2. Open `.kiro/specs/phase-1.5-code-generation-integration/tasks.md`
+3. Click "Start task" next to Task 1
+4. Complete all 23 tasks (95 sub-tasks)
+5. **Can run in parallel with Phase 1**
+
+### Future Work: Phase 1 - Strands Multi-Agent (After MVP)
+
+1. **First**: Complete Phase 0 (MVP)
+2. Open `.kiro/specs/phase-1-strands-multi-agent-compatibility/tasks.md`
 3. Click "Start task" next to Task 1
 4. Complete all 22 tasks
+5. **Can run in parallel with Phase 1.5**
 
-### Future Work: Strands Advanced (After Phase 1)
+### Future Work: Phase 2 - Strands Advanced (After Phase 1)
 
-1. **First**: Complete Strands Multi-Agent Compatibility
-2. Open `.kiro/specs/strands-advanced-features/tasks.md`
+1. **First**: Complete Phase 1 (Strands Multi-Agent)
+2. Open `.kiro/specs/phase-2-strands-advanced-features/tasks.md`
 3. Click "Start task" next to Task 1
 4. Complete all 40 tasks
 
@@ -281,49 +389,55 @@ If you want to deliver value incrementally:
 
 ## Priority Recommendations
 
-### Must Have (Spec 1)
-1. ✅ Agent Communication Protocol
-2. ✅ Shared Memory System
-3. ✅ 4 Strands patterns
-4. ✅ Agent metadata
-5. ✅ Spec export
+### Must Have (Phase 0 & 1.5)
+1. ✅ Complete MVP (Phase 0)
+2. ✅ Code Generation Engine (Phase 1.5)
+3. ✅ Model & Tool Registries (Phase 1.5)
+4. ✅ Deployment Generators (Phase 1.5)
+5. ✅ Cost Estimation (Phase 1.5)
 
-### Should Have (Spec 2 Phase 1-2)
-6. ✅ Agent Loop
-7. ✅ State Management
-8. ✅ Structured Output
-9. ✅ Conversation Management
-10. ✅ Swarm Pattern
-11. ✅ Workflow Pattern
+### Should Have (Phase 1)
+6. ✅ Agent Communication Protocol
+7. ✅ Shared Memory System
+8. ✅ 4 Strands patterns
+9. ✅ Agent metadata
+10. ✅ Spec export
 
-### Nice to Have (Spec 2 Phase 3-4)
-12. ✅ Graph Pattern
-13. ✅ Hook System
-14. ✅ 4 new MCPs
-15. ✅ MCP Tool Wrappers
+### Nice to Have (Phase 2)
+11. ✅ Agent Loop
+12. ✅ State Management
+13. ✅ Structured Output
+14. ✅ Advanced Patterns (Swarm, Workflow, Graph)
+15. ✅ Hook System
+16. ✅ 4 new MCPs + tool wrappers
 
 ---
 
 ## Questions?
 
-- **Current MVP Questions**: See `.kiro/specs/agent-builder-platform/`
-- **Strands Phase 1 Questions**: See `.kiro/specs/strands-multi-agent-compatibility/`
-- **Strands Phase 2 Questions**: See `.kiro/specs/strands-advanced-features/`
+- **Phase 0 Questions**: See `.kiro/specs/phase-0-agent-builder-platform/`
+- **Phase 1.5 Questions**: See `.kiro/specs/phase-1.5-code-generation-integration/`
+- **Phase 1 Questions**: See `.kiro/specs/phase-1-strands-multi-agent-compatibility/`
+- **Phase 2 Questions**: See `.kiro/specs/phase-2-strands-advanced-features/`
 - **General Questions**: Review this overview document
 
 ---
 
 ## Total Effort Summary
 
-| Spec | Status | Tasks | Effort | Timeline |
-|------|--------|-------|--------|----------|
-| **Agent Builder Platform** | 🔄 In Progress | 14/28 (50%) | 51-68 hours remaining | 1-2 weeks |
-| **Strands Multi-Agent** | 📝 Future | 0/22 (0%) | 76-98 hours | 2-2.5 weeks |
-| **Strands Advanced** | 📝 Future | 0/40 (0%) | 140-190 hours | 3.5-4.5 weeks |
-| **Total** | - | **14/90 (16%)** | **267-356 hours** | **6.5-9 weeks** |
+| Phase | Spec | Status | Tasks | Effort | Timeline |
+|-------|------|--------|-------|--------|----------|
+| **Phase 0** | **Agent Builder Platform** | 🔄 In Progress | 14/28 (50%) | 51-68 hours remaining | 1-2 weeks |
+| **Phase 1.5** | **Code Generation Integration** | 📝 Ready | 0/23 (0%) | 120-160 hours | 3-4 weeks |
+| **Phase 1** | **Strands Multi-Agent** | 📝 Future | 0/22 (0%) | 76-98 hours | 2-2.5 weeks |
+| **Phase 2** | **Strands Advanced** | 📝 Future | 0/40 (0%) | 140-190 hours | 3.5-4.5 weeks |
+| **Total** | **All Phases** | - | **14/113 (~12%)** | **387-516 hours** | **9-13 weeks** |
 
 ---
 
-**Current Status**: ✅ Agent Builder Platform MVP in progress (50% complete)
-**Recommended Next**: Complete Task 14.8, then MVP launch tasks
-**Future Roadmap**: Strands integration after MVP launch
+**Current Status**: ✅ Phase 0 (MVP) in progress (50% complete)  
+**Recommended Next**: Complete Task 14.8, then MVP launch tasks  
+**After MVP**: Phase 1.5 (Code Generation) - can run parallel with Phase 1 (Strands)  
+**Future Roadmap**: Phase 1 → Phase 2 for complete enterprise capabilities
+
+**Last Updated**: October 14, 2025

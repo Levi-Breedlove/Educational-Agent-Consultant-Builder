@@ -1,16 +1,52 @@
 # Strands Multi-Agent Roadmap
 
-**Date**: October 10, 2025  
+**Date**: October 14, 2025 (Updated)  
 **Status**: 📋 Planning Phase
 
 ## Overview
 
-The Agent Builder Platform has two new specs for comprehensive Strands multi-agent compatibility. These are **future enhancements** that will be implemented after the current MVP is complete.
+The Agent Builder Platform has **three future enhancement specs** that will be implemented after the current MVP is complete:
 
-## Two-Phase Approach
+1. **Phase 1.5**: Code Generation Integration (independent of Strands)
+2. **Phase 1**: Strands Multi-Agent Compatibility
+3. **Phase 2**: Strands Advanced Features
+
+**Note**: Phase 1.5 (Code Generation) is **independent** of Strands work and can be implemented in parallel with Phase 1.
+
+## Three-Phase Approach
+
+### Phase 1.5: Code Generation Integration (Independent)
+**Spec**: `.kiro/specs/phase-1.5-code-generation-integration/`  
+**Status**: 📝 Ready for implementation  
+**Effort**: 120-160 hours (3-4 weeks)  
+**Dependencies**: Phase 0 (MVP) completion  
+**Can Run Parallel With**: Phase 1 (Strands)
+
+**What It Adds**:
+- Model Registry (49+ AI models)
+- Tool Registry (50+ pre-configured tools)
+- Code Generation Engine
+- Deployment Generators (AWS, Azure, GCP, AgentCore)
+- Cost Estimation Service
+- Docker-based Testing Infrastructure
+- Frontend Components (ModelSelector, ToolSelector, CodePreview, etc.)
+
+**Key Files to Create**:
+- `code-generation/model_registry.py`
+- `code-generation/tool_registry.py`
+- `code-generation/code_generator.py`
+- `code-generation/deployment_generator.py`
+- `code-generation/cost_service.py`
+- `code-generation/testing_service.py`
+- `api/code_generation_service.py`
+- Frontend components in `frontend/src/components/`
+
+**Note**: This phase is **independent of Strands work** and transforms the platform from consultation-only to end-to-end code generation.
+
+---
 
 ### Phase 1: Basic Strands Compatibility
-**Spec**: `.kiro/specs/strands-multi-agent-compatibility/`  
+**Spec**: `.kiro/specs/phase-1-strands-multi-agent-compatibility/`  
 **Status**: 📝 Ready for implementation  
 **Effort**: 76-98 hours (2-2.5 weeks)
 
@@ -29,7 +65,7 @@ The Agent Builder Platform has two new specs for comprehensive Strands multi-age
 - `agent-core/strands_multi_agent_coordinator.py`
 
 ### Phase 2: Advanced Features
-**Spec**: `.kiro/specs/strands-advanced-features/`  
+**Spec**: `.kiro/specs/phase-2-strands-advanced-features/`  
 **Status**: 📝 Planning (depends on Phase 1)  
 **Effort**: 140-190 hours (3.5-4.5 weeks)
 
@@ -56,35 +92,55 @@ The Agent Builder Platform has two new specs for comprehensive Strands multi-age
 
 ## Timeline
 
-### Current Focus: MVP Completion
+### Current Focus: MVP Completion (Phase 0)
 **Priority**: Complete agent-builder-platform MVP first
-- Tasks 15, 18, 19, 20, 21 (critical path)
-- Tasks 22-26 (launch activities)
-- **Estimated**: 45-55 hours
+- Tasks 14.8, 15, 19, 20, 21 (critical path)
+- Tasks 22-27 (launch activities)
+- **Estimated**: 51-68 hours
 
-### After MVP: Strands Phase 1
+### After MVP: Phase 1.5 (Code Generation) - Recommended Next
+**Priority**: End-to-end code generation
+- 23 implementation tasks (95 sub-tasks)
+- **Estimated**: 120-160 hours
+- **Can run in parallel with Phase 1**
+
+### After MVP: Phase 1 (Strands Multi-Agent) - Can be Parallel
 **Priority**: Basic multi-agent compatibility
 - 22 implementation tasks
 - **Estimated**: 76-98 hours
+- **Can run in parallel with Phase 1.5**
 
-### Future: Strands Phase 2
+### Future: Phase 2 (Strands Advanced)
 **Priority**: Advanced capabilities
 - 40 implementation tasks
 - **Estimated**: 140-190 hours
+- **Requires Phase 1 completion**
 
-## Total Strands Effort
+## Total Effort
 
-**Combined**: 216-288 hours (5-7 weeks for 1 developer)
+**Phase 0 (MVP)**: 51-68 hours  
+**Phase 1.5 (Code Generation)**: 120-160 hours  
+**Phase 1 (Strands Multi-Agent)**: 76-98 hours  
+**Phase 2 (Strands Advanced)**: 140-190 hours  
+**Total All Phases**: 387-516 hours (9-13 weeks sequential, 7.5-10.5 weeks with parallel execution)
 
 ## When to Start
 
-### Prerequisites for Phase 1
-- ✅ MVP launch complete
+### Prerequisites for Phase 1.5 (Code Generation)
+- ✅ Phase 0 (MVP) launch complete
+- ✅ Implementation Guide agent operational
+- ✅ Orchestrator with implementation phase working
+- ✅ API endpoints functional
+- ✅ Frontend tabbed interface operational
+
+### Prerequisites for Phase 1 (Strands Multi-Agent)
+- ✅ Phase 0 (MVP) launch complete
 - ✅ All 5 agents operational
 - ✅ Orchestrator stable
 - ✅ 16 MCPs configured
+- ⚠️ **Independent of Phase 1.5** (can run in parallel)
 
-### Prerequisites for Phase 2
+### Prerequisites for Phase 2 (Strands Advanced)
 - ✅ Phase 1 complete
 - ✅ Agent Communication Protocol working
 - ✅ Shared Memory System working
@@ -93,33 +149,45 @@ The Agent Builder Platform has two new specs for comprehensive Strands multi-age
 ## Impact on Current System
 
 ### Backward Compatibility
-Both specs maintain **100% backward compatibility**:
+All three future phases maintain **100% backward compatibility**:
 - Existing agents continue to work
 - Existing orchestrator continues to work
 - Existing APIs continue to work
 - New features are **opt-in**
 
 ### Performance Impact
-- Phase 1: < 10% overhead
-- Phase 2: < 15% overhead (combined)
+- Phase 1.5 (Code Generation): < 5% overhead (mostly on-demand)
+- Phase 1 (Strands Multi-Agent): < 10% overhead
+- Phase 2 (Strands Advanced): < 15% overhead (combined)
 
 ## Documentation References
 
 - **Spec Overview**: `.kiro/specs/SPEC-OVERVIEW.md`
-- **Phase 1 Spec**: `.kiro/specs/strands-multi-agent-compatibility/`
-- **Phase 2 Spec**: `.kiro/specs/strands-advanced-features/`
+- **Phase 0 Spec**: `.kiro/specs/phase-0-agent-builder-platform/`
+- **Phase 1.5 Spec**: `.kiro/specs/phase-1.5-code-generation-integration/`
+- **Phase 1 Spec**: `.kiro/specs/phase-1-strands-multi-agent-compatibility/`
+- **Phase 2 Spec**: `.kiro/specs/phase-2-strands-advanced-features/`
 
 ## Current Steering Alignment
 
-The steering documents (product.md, structure.md, tech.md) are **correctly focused on the current implementation**. They do not need updates for these future specs until implementation begins.
+The steering documents (product.md, structure.md, tech.md) are **correctly focused on the current implementation** (Phase 0). They do not need updates for future phases until implementation begins.
 
 ### When to Update Steering
 
-**Update steering when**:
-- Phase 1 implementation starts
-- New components are added to agent-core/
-- New patterns are implemented
-- New MCPs are integrated
+**Update steering when Phase 1.5 starts**:
+- Add code generation to product.md
+- Add new directories to structure.md
+- Add new dependencies to tech.md
+
+**Update steering when Phase 1 starts**:
+- Add Strands patterns to product.md
+- Add agent-core components to structure.md
+- No new tech needed (same stack)
+
+**Update steering when Phase 2 starts**:
+- Add advanced features to product.md
+- Add new components to structure.md
+- Add 4 new MCPs to MCP-INVENTORY.md
 
 **Don't update steering for**:
 - Planning documents
@@ -129,12 +197,31 @@ The steering documents (product.md, structure.md, tech.md) are **correctly focus
 ## Recommendation
 
 ✅ **Current steering is correct** - No updates needed now  
-📋 **This roadmap document** - Provides context for future work  
-🚀 **Focus on MVP** - Complete current platform first  
-⏭️ **Then Strands Phase 1** - After MVP launch
+📋 **This roadmap document** - Provides context for all future work  
+🚀 **Focus on Phase 0 (MVP)** - Complete current platform first  
+⏭️ **Then Phase 1.5 (Code Generation)** - Recommended next priority  
+⏭️ **Or Phase 1 (Strands)** - Can run parallel with Phase 1.5  
+⏭️ **Finally Phase 2 (Advanced)** - After Phase 1 complete
+
+## Implementation Strategy
+
+### Sequential Approach
+1. Phase 0 (MVP) - 51-68 hours
+2. Phase 1.5 (Code Generation) - 120-160 hours
+3. Phase 1 (Strands Multi-Agent) - 76-98 hours
+4. Phase 2 (Strands Advanced) - 140-190 hours
+**Total**: 387-516 hours (9-13 weeks)
+
+### Parallel Approach (Recommended)
+1. Phase 0 (MVP) - 51-68 hours (1-2 weeks)
+2. **Phase 1.5 + Phase 1 in parallel** - 120-160 hours (3-4 weeks)
+3. Phase 2 (Strands Advanced) - 140-190 hours (3.5-4.5 weeks)
+**Total**: 7.5-10.5 weeks (saves 1.5-2.5 weeks)
 
 ---
 
 **Status**: ✅ Steering in sync with current implementation  
-**Next Action**: Complete MVP, then start Strands Phase 1  
-**Timeline**: MVP → Phase 1 → Phase 2
+**Next Action**: Complete Phase 0 (MVP), then start Phase 1.5 or Phase 1  
+**Timeline**: Phase 0 → Phase 1.5 + Phase 1 (parallel) → Phase 2
+
+**Last Updated**: October 14, 2025 (Added Phase 1.5 Code Generation Integration)

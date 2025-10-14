@@ -1,7 +1,7 @@
 # Agent Builder Platform - Project & Spec Rundown
 
-**Date**: October 12, 2025  
-**Status**: ✅ ALL DOCUMENTATION ALIGNED AND VALIDATED
+**Date**: October 14, 2025  
+**Status**: ✅ ALL DOCUMENTATION ALIGNED AND VALIDATED (Updated with Phase 1.5)
 
 ---
 
@@ -65,10 +65,32 @@ The Agent Builder Platform is an AI-powered educational consultation system that
 
 ---
 
-### 2. Strands Multi-Agent (Future Phase 1)
+### 2. Code Generation Integration (Phase 1.5)
+**Status**: 0/23 tasks (0%)  
+**Focus**: End-to-end code generation from consultation  
+**Effort**: 120-160 hours (3-4 weeks)  
+**Dependencies**: Phase 0 (MVP) completion  
+**Can Run Parallel With**: Phase 1 (Strands Multi-Agent)
+
+**Key Features**:
+- Model Registry (49+ AI models: AWS Bedrock, Ollama, OpenAI)
+- Tool Registry (50+ pre-configured tools: RAG, Memory, Code, Web, File System)
+- Code Generation Engine (production-ready templates)
+- Deployment Generators (AWS, Azure, GCP, AgentCore)
+- Cost Estimation Service (real-time calculations)
+- Docker-based Testing Infrastructure
+- Frontend Components (ModelSelector, ToolSelector, CodePreview, CostEstimator, TestRunner)
+
+**Value**: Transforms platform from consultation-only to complete end-to-end agent creation with actual deployable code.
+
+---
+
+### 3. Strands Multi-Agent (Phase 1)
 **Status**: 0/22 tasks (0%)  
 **Focus**: Multi-agent coordination  
-**Effort**: 76-98 hours (2-2.5 weeks)
+**Effort**: 76-98 hours (2-2.5 weeks)  
+**Dependencies**: Phase 0 (MVP) completion  
+**Can Run Parallel With**: Phase 1.5 (Code Generation)
 
 **Key Features**:
 - Agent Communication Protocol
@@ -78,10 +100,11 @@ The Agent Builder Platform is an AI-powered educational consultation system that
 
 ---
 
-### 3. Strands Advanced (Future Phase 2)
+### 4. Strands Advanced (Phase 2)
 **Status**: 0/40 tasks (0%)  
 **Focus**: Enterprise capabilities  
-**Effort**: 140-190 hours (3.5-4.5 weeks)
+**Effort**: 140-190 hours (3.5-4.5 weeks)  
+**Dependencies**: Phase 1 (Strands Multi-Agent) completion
 
 **Key Features**:
 - Agent Loop Engine
@@ -187,9 +210,17 @@ The Agent Builder Platform is an AI-powered educational consultation system that
 5. Complete Task 21 (User Documentation) - 4-6 hours
 6. Execute Tasks 22-27 (Launch Activities) - 19-26 hours
 
-**Post-MVP**:
-7. Implement Strands Multi-Agent (76-98 hours)
-8. Implement Strands Advanced (140-190 hours)
+**Post-MVP (Phase 1.5 - Priority)**:
+7. Implement Code Generation Integration (120-160 hours)
+   - Can run in parallel with Phase 1
+
+**Post-MVP (Phase 1 - Can be parallel)**:
+8. Implement Strands Multi-Agent (76-98 hours)
+   - Can run in parallel with Phase 1.5
+
+**Future (Phase 2)**:
+9. Implement Strands Advanced (140-190 hours)
+   - Requires Phase 1 completion
 
 ---
 
@@ -225,12 +256,13 @@ The Agent Builder Platform is **well-positioned for MVP launch** with:
 - ✅ **Production-ready code quality**
 - ✅ **Comprehensive documentation**
 - ✅ **Clear path to launch** (51-68 hours)
-- ✅ **Future roadmap defined** (Strands integration)
+- ✅ **Future roadmap defined** (Code Generation + Strands integration)
 
 **Next Milestone**: Complete Task 14.8 (AWS Agent Alignment), then proceed with MVP launch tasks (15, 19, 20, 21-27).
 
 **Total Effort to MVP**: 51-68 hours  
-**Total Effort to Full Enterprise Features**: 267-356 hours (including Strands)
+**Total Effort to Code Generation (Phase 1.5)**: 120-160 hours  
+**Total Effort to Full Enterprise Features**: 387-516 hours (including all phases)
 
 ---
 
@@ -239,4 +271,4 @@ The Agent Builder Platform is **well-positioned for MVP launch** with:
 **Ready for**: Task 14.8 Implementation  
 **Next Review**: Post-Task 14.8 Completion
 
-**Last Updated**: October 12, 2025
+**Last Updated**: October 14, 2025 (Added Phase 1.5: Code Generation Integration)

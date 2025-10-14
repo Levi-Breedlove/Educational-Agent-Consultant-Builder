@@ -30,15 +30,41 @@
 - **Testing Validator**: Teaches AWS security, performance, and cost validation
 - **Strands Integration**: Walks you through Strands agent builder configuration
 
-## Current Status
+## Project Vision & Roadmap
+
+### Current Status (Phase 0 - MVP)
 
 **Backend: 100% Complete** | **Frontend: 75% Complete** | **Overall: 50% Complete (14/28 tasks)**
 
 See [STATUS-DASHBOARD.md](docs/STATUS-DASHBOARD.md) for detailed progress.
 
+### Future Enhancements
+
+**Phase 1.5: Code Generation Integration**
+- Automatic code generation from consultation
+- 49+ AI model registry (AWS Bedrock, Ollama, OpenAI)
+- 50+ pre-configured tool registry
+- AWS deployment generators (AgentCore, ECS Fargate, Lambda)
+- Real-time cost estimation
+- Docker-based testing infrastructure
+
+**Phase 1: Strands Multi-Agent Compatibility**
+- Multi-agent coordination patterns
+- Agent communication protocol
+- Shared memory system
+- 4 Strands patterns (Hierarchical, Sequential, Parallel, Conditional)
+
+**Phase 2: Strands Advanced Features**
+- Agent Loop Engine (Perception → Reasoning → Action → Reflection)
+- Structured output validation
+- 3 advanced patterns (Swarm, Workflow, Graph)
+- Hook system for automation
+- 4 additional MCPs
+
 ## Documentation
 
-Complete documentation: [COMPLETE-DOCUMENTATION.md](docs/COMPLETE-DOCUMENTATION.md)
+Complete documentation: [COMPLETE-DOCUMENTATION.md](docs/COMPLETE-DOCUMENTATION.md)  
+Full project specs: [.kiro/specs/](../.kiro/specs/)
 
 ## Quick Start
 

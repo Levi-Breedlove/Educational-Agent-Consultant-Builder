@@ -3,7 +3,7 @@
 # Web Framework
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
-python-multipart==0.0.31
+python-multipart==0.0.32
 
 # AWS SDK
 boto3==1.29.7
@@ -23,7 +23,7 @@ websockets==12.0
 
 # HTTP Client
 httpx==0.25.2
-aiohttp==3.14.0
+aiohttp==3.14.1
 
 # Testing
 pytest==9.0.3
